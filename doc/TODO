@@ -1,0 +1,463 @@
+
+
+
+
+
+
+
+
+
+                   mod_tex 0.1-beta TODO
+
+          Peter Danenberg <pcd at wikitex dot org>
+                   http://wikisophia.org
+
+
+
+                          ABSTRACT
+
+          Things  to  do  (exigenda)  and  things  done
+     (exacta) are recorded here.
+
+
+
+31 January 2007
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+TODO                         -6-            mod_tex 0.1-beta
+
+
+                     Table of Contents
+
+
+1.  Exigenda . . . . . . . . . . . . . . . . . . . . . .   1
+     1.1.  Generic . . . . . . . . . . . . . . . . . . .   1
+     1.2.  Server  . . . . . . . . . . . . . . . . . . .   1
+     1.3.  Documentation . . . . . . . . . . . . . . . .   1
+     1.4.  Handler . . . . . . . . . . . . . . . . . . .   2
+     1.5.  Jailkit . . . . . . . . . . . . . . . . . . .   2
+2.  Exacta . . . . . . . . . . . . . . . . . . . . . . .   2
+     2.1.  Generic . . . . . . . . . . . . . . . . . . .   3
+          2.1.1.  Cache  . . . . . . . . . . . . . . . .   3
+     2.2.  Server  . . . . . . . . . . . . . . . . . . .   4
+     2.3.  Client  . . . . . . . . . . . . . . . . . . .   4
+          2.3.1.  Cache  . . . . . . . . . . . . . . . .   5
+     2.4.  Documentation . . . . . . . . . . . . . . . .   5
+3.  Copyright  . . . . . . . . . . . . . . . . . . . . .   5
+4.  Colophon . . . . . . . . . . . . . . . . . . . . . .   5
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                       31 January 2007
+
+
+
+
+
+
+TODO                         -1-            mod_tex 0.1-beta
+
+
+
+
+
+                   mod_tex 0.1-beta TODO
+
+          Peter Danenberg <pcd at wikitex dot org>
+                   http://wikisophia.org
+
+
+1.  Exigenda
+
+     1.1.  Generic
+
+     1.2.  Server
+
+          Graphviz
+               Optional link map (outsource source to exter-
+               nal link)?
+
+          Debug
+               Add  a verbosity option on some facilities to
+               be invoked when modtex-debug is invoked;  and
+               quiet, otherwise.
+
+          Cache
+               Server-side cache (outsource?)
+
+          Templates
+               Some  protocol  options to turn off templates
+               for naked encoding (but not for gnuplot,  for
+               instance,  that  depends upon the template to
+               return an image).
+
+          Config
+               Windows-style config files (or XML?).
+
+          Crontab
+               Crontab to delete daily cruft (left over from
+               over-ambitious  users who outstrip resources,
+               causing files.
+
+          Actions
+               Plenary Classes
+
+          Install
+               Replace  ad-hoc  installations  by  copytree;
+               fail on directory existence.
+
+     1.3.  Documentation
+
+          TODO Raus; find something else: bugzilla?
+
+          Territory
+               Copyright notices, etc.
+
+
+
+                       31 January 2007
+
+
+
+
+
+TODO                         -2-            mod_tex 0.1-beta
+
+
+          Permissions
+               Work   with   MediaWiki   to  restrict  usage
+               (optionally) to certain classes of users.
+
+          XML-RPC-lib
+               Add fallback-support for phpxmlrpc or Incutio
+               for  those  with  little  control  over their
+               installations, willing to take a  performance
+               hit.
+
+     1.4.  Handler
+
+          Throttle
+               A  "check back in X seconds" message on over-
+               usage.
+
+          Database
+               Swap  out  home-brew  lock  system  for  some
+               heavy-duty  piece-of-shit  (mysql, say; post-
+               gre; or even sqlite3).
+
+     1.5.  Jailkit
+
+          Paths
+               Dynamic jailkit with gno-tools  (./configure,
+               etc.);  throw  in  --with-user, --with-group,
+               etc.; or:  make  a  build_jailkit  target  in
+               setup.py.
+
+2.  Exacta
+
+     Server-client dichotomy
+          Server is now its own entity: mod_tex; the client,
+          a MediaWiki client, is mod_tex.
+
+     Packaging
+          Combine both server and client into a common pack-
+          age, or utterly segregated (thus possibly not con-
+          fusing the client-users)?
+
+          Latter: combined  source;  `src'  directory:  con-
+          tains: `client', `server'.
+
+     PHP-client
+          Basic  request working; now to do something useful
+          with it.
+
+     Temp-dir
+          Does cleanup happen after exceptions? (The  object
+          is deleted, after all.)
+
+          Yes.
+
+
+
+
+
+                       31 January 2007
+
+
+
+
+
+TODO                         -3-            mod_tex 0.1-beta
+
+
+     Python Apache-handler
+          Trader  Joe  acts  as a middle-man between locally
+          running, unprivileged, chrooted  servers  and  the
+          requesting public.
+
+          More  efficient?  Possibly; will rebuke the prema-
+          ture optimization for now.
+
+     THANKS
+          Get Erik in there. Hephaistos, Hermes Charmophron,
+          Apollon, Hestia, Hera, Athena, dodeka Theoi.
+
+     Footer/Header
+          mod_tex  <VERSION>  in  footers or headers, across
+          from date
+
+     Honest work in subserver
+          Invocation of latex, dvipng
+
+     Web install
+          Installs into web-root and changes ownership.
+
+     Title page
+          ms-macro to institute  title  page  (include  with
+          .so)
+
+     License
+          Includable ms-file for license (.so)
+
+     2.1.  Generic
+
+          2.1.1.  Cache
+
+               Purview
+                    Client-, server-side or both?
+
+               Failure
+                    Problem: in 1.0+, failed rendering don't
+                    get cached and are rerendered every day.
+
+                    Distinguish,  therefore, between server-
+                    and syntax-failures; and  cache  accord-
+                    ingly.
+
+                    No:  a  simple  flag  PHP side will turn
+                    on/off error caching;  functioning  sys-
+                    tems  can  turn  it off for performance,
+                    and for debugging purposes: back on.
+
+                    It may be useful to distinguish  between
+                    temporary and permanent errors, now that
+                    we have ad-hoc classes.
+
+
+
+
+
+                       31 January 2007
+
+
+
+
+
+TODO                         -4-            mod_tex 0.1-beta
+
+
+     2.2.  Server
+
+          Config
+               Simplified on excision of client.
+
+          Resource Limits
+               Don't setrlimits in case of debug.
+
+          Facilities
+               Facility constructor takes merely a **kwargs,
+               and  populates  accordingly; no pre-set vars.
+               (Implemented: pre-set args and **kwargs.)
+
+          Debug
+               build_scripts command which takes --debug and
+               disables optimization in modtex-main.py
+
+               No:  rather a modtex/main.py, and two trivial
+               wrappers: modtex and modtex- debug, which are
+               invoked with `python -O' and `python' respec-
+               tively.
+
+          IP-throttle
+               Database of author vs. time
+
+          setrlimit
+               Per-request (post droppriv)
+
+          MIME-types
+               Currently a non-descript list  in  Constants;
+               instantiate  MIME-wrappers  with well-defined
+               instance variables.
+
+          Delivery
+               Client-server contract for  the  delivery  of
+               content (keys for XMLRPC response); encode in
+               a format parseable by PHP: XML, say?
+
+               Right now: using an implicit contract (image:
+               content).   A low-tech published API may suf-
+               fice.
+
+     2.3.  Client
+
+          Source
+               `errors' directory to house the manifold.
+
+          Authentication
+               CURL-lib on PHP can  handle  basic  and  key-
+               based.
+
+          Errors
+               Unified error presentation.
+
+
+
+
+                       31 January 2007
+
+
+
+
+
+TODO                         -5-            mod_tex 0.1-beta
+
+
+          Documentation
+               Own  PHP-client  documentation,  or  combined
+               with server's (current).
+
+          2.3.1.  Cache
+
+               Purview
+                    Use MediaWiki mechanism with  its  over-
+                    head, or some ad-hoc system?
+
+               MediaWiki
+                    MediaWiki  mechanism: must be tweaked to
+                    forbid arbitrary upload; but can  detect
+                    orphaned files: Special:Unusedimages.
+
+                    Must  forge,  apparently,  a subclass of
+                    WebRequest, filling in  artificial  val-
+                    ues.
+
+               Home-brew
+                    Own  mechanism: lightweight; but respon-
+                    sibility (cruft).
+
+     2.4.  Documentation
+
+          README Mon Jan 22 08:36:11 PST 2007
+               Installation
+
+          Build Sun Jan 21 01:46:55 PST 2007
+               Build target in Setup.py  which  invokes  the
+               Makefile in doc.
+
+3.  Copyright
+
+     mod_tex: distributed LaTeX-rendering over Apache
+     Copyright (C) 2007 Peter Danenberg
+
+          You should have received a copy of the GNU General
+     Public License version 2 along with  this  program;  if
+     not,  write  to  the Free Software Foundation, Inc., 51
+     Franklin Street, Fifth Floor, Boston,  MA   02110-1301,
+     USA.
+
+4.  Colophon
+
+          This  document was prepared in GNU troff using the
+     ms macro package; preprocessed with tbl, the table for-
+     matter;  and  lastly  filtered  through  col  to remove
+     reverse line feeds and tabs:
+
+          groff -ms -t -Tascii SOURCE | col -bx > OUT
+
+     Automatically generated contents were moved  from  page
+     last to first with an ad-hoc bash-diddy.
+
+
+
+                       31 January 2007
+
+

@@ -1,0 +1,12 @@
+##
+# mod_tex: distributed LaTeX-rendering over Apache
+# Copyright (C) 2007 Peter Danenberg
+# See doc/COPYING for details.
+include doc/TODO doc/THANKS doc/README doc/COPYING
+recursive-include doc/src *.ms Makefile.in
+recursive-include doc/dot *.dot *.png
+exclude doc/src/title.ms
+recursive-include src/handler .htaccess *.py
+recursive-include src/jailkit *.ini
+recursive-include src ChangeLog
+include doc/ChangeLog

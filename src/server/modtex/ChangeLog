@@ -1,0 +1,68 @@
+2007-01-31  Peter Danenberg  <pcd at wikitex dot org>
+
+	* config/default.py (Config.facilities): Added safe-mode to
+	lilypond.
+
+	* mime.py (Mime): Added.
+
+	* templates/plot.gp: Added.
+	Removing transparency (appears as black).
+
+	* actions/gnuplot.py (Gnuplot.render): fashion
+	to play with super-class.
+
+	* actions/latex.py (Latex.render): update to play
+	with super-class.
+
+	* actions/graphviz.py (Graphviz.render): update to
+	play with super-class.
+
+	* actions/lilypond.py (Lilypond.render): update to
+	play with super-class.
+
+	* action.py (Action.render): created a reasonable
+	super-class renderer.
+
+2007-01-29  Peter Danenberg  <pcd at wikitex dot org>
+
+	* install.py (install_root.subradices): generalized
+	to various roots, sensitive to facilities.
+
+	* all: excised client; refactored as mod_tex;
+	controversy: mod_tex? (Untaken)
+	
+	* config/default.py (Config.web): Simplified
+	the config a great deal to excise the client.
+
+2007-01-28  Peter Danenberg  <pcd at wikitex dot org>
+
+	* execution.py (Execution.execute): take verbosity into
+	account in __debug__ environment.
+
+	* actions/graphviz.py (Graphviz.render): inaugurateth
+	graphviz and its ilk.
+
+	* actions/lilypond.py (Lilypond.render): inaugurateth
+	lilypond; had to outsource gs to its own process (lilypond
+	returned 1 therewith); damn shame about the lack of trim on
+	gs, though; might have to go with ImageMagick.
+
+2007-01-23  Peter Danenberg  <pcd at wikitex dot org>
+
+	* install.py (install_handler.run): Get rid of extraneous
+	target (install_server -> install_handler).
+	(install_handler.run): Don't install extraneous (*~) files:
+	security risk.  (Argument against copytree, btw.)
+	Transition to directory-based database.
+	(install_client.run): errors, config and cache dir on
+	install.
+
+2007-01-20  Peter Danenberg  <pcd at wikitex dot org>
+
+	* handler/traderjoe.py (handler): per-ip cputime-throttler
+
+2007-01-19  Peter Danenberg  <pcd at wikitex dot org>
+
+	* install.py (install_web.run): create the ip-throttle-database
+	if it doesn't exist, own it to the webserver.
+

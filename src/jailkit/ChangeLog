@@ -1,0 +1,6 @@
+2007-01-30  Peter Danenberg  <pcd at wikitex dot org>
+
+	* jailkit.ini: successful (prima facie) root from pre-existing
+	latex installation; requires, unfortunately, a shell for
+	mktexpk, etc.
+

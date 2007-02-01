@@ -1,0 +1,7 @@
+2007-01-30  Peter Danenberg  <pcd at wikitex dot org>
+
+	* Added Gnuplot.
+	
+	* Refactored into mod_tex and segregate wikiTeX
+	client.
+
