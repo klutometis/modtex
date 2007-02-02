@@ -13,9 +13,6 @@ here."
 .XH 2 Server
 .IP Graphviz
 Optional link map (outsource source to external link)?
-.IP Debug
-Add a verbosity option on some facilities to be invoked when modtex-debug
-is invoked; and quiet, otherwise.
 .IP Cache
 Server-side cache (outsource?)
 .IP Templates
@@ -31,14 +28,45 @@ outstrip resources, causing files.
 Plenary Classes
 .IP Install
 Replace ad-hoc installations by copytree; fail on directory existence.
+.XH 3 "Multiple Documents"
+.IP Protocol
+Protocol change: return a dictionary of {MIME: ARRAY} objects; where
+ARRAY is an array of matching documents (such as dvipng's image-per-
+page).
+.IP Structure
+Breadth-first or depth-first: meaning, array of atomic dictionaries; or
+an array of unbound arrays?
+.IP
+Second may be slightly more efficient in those cases where one source,
+for instance, wields multiple targets (e.g., latex to multiple PNGs);
+but more difficult to distinguish between uneven and incomplete data.
+.IP
+First may require some redundance (e.g., redundant MIDIs per LilyPond page,
+or source per LaTeX image); but is cleaner, and determinant.
+.IP
+The superset renderer will have to receive a glob of targets; but how
+does it distinguish between partitioned (e.g. PNGs) and whole (e.g. LaTeX-source)
+data?
+.IP
+And if partitioned data should come back incomplete or in disparate quantities?
+Can flag partitioned data, I suppose.
+.IP
+Bottom line: don't want to fuck up clean design; but may relent to multipage
+output if necessary.  (LilyPond's eps driver, for instance, outputs the
+whole document in one page; can link to an optional pdf if multi-page output
+is desirable.)
+.IP
+General solution: offer optional alternative download (PDF, say) for
+multipage docs, specified as parameter.
 .
 .XH 2 Documentation
 .IP Doxygen
-Real doxygen; what to do about docstrings, though?
+Real doxygen; what to do about docstrings, though? Answer: wait until
+docutils matures into automatic reStructuredText extraction. (Doxygen
+also does the nice call-graphs, though; and (who knows?) may do
+docstrings at some point.)
 .IP TODO
 Raus; find something else: bugzilla?
-.IP Territory
-Copyright notices, etc.
 .IP Permissions
 Work with MediaWiki to restrict usage (optionally) to certain classes of
 users.
@@ -111,6 +139,9 @@ It may be useful to distinguish between temporary and permanent errors,
 now that we have ad-hoc classes.
 .
 .XH 2 Server
+.IP Debug
+Add a verbosity option on some facilities to be invoked when modtex-debug
+is invoked; and quiet, otherwise.
 .IP Config
 Simplified on excision of client.
 .IP "Resource Limits"
@@ -161,6 +192,8 @@ values.
 Own mechanism: lightweight; but responsibility (cruft).
 .
 .XH 2 Documentation
+.IP Territory
+Copyright notices, etc.
 .IP "README Mon Jan 22 08:36:11 PST 2007"
 Installation
 .IP "Build Sun Jan 21 01:46:55 PST 2007"

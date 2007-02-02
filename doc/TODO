@@ -21,7 +21,7 @@
 
 
 
-31 January 2007
+1 February 2007
 
 
 
@@ -67,7 +67,7 @@
 
 
 
-TODO                         -6-            mod_tex 0.1-beta
+TODO                         -i-            mod_tex 0.1-beta
 
 
                      Table of Contents
@@ -76,18 +76,19 @@ TODO                         -6-            mod_tex 0.1-beta
 1.  Exigenda . . . . . . . . . . . . . . . . . . . . . .   1
      1.1.  Generic . . . . . . . . . . . . . . . . . . .   1
      1.2.  Server  . . . . . . . . . . . . . . . . . . .   1
-     1.3.  Documentation . . . . . . . . . . . . . . . .   1
-     1.4.  Handler . . . . . . . . . . . . . . . . . . .   2
-     1.5.  Jailkit . . . . . . . . . . . . . . . . . . .   2
-2.  Exacta . . . . . . . . . . . . . . . . . . . . . . .   2
-     2.1.  Generic . . . . . . . . . . . . . . . . . . .   3
-          2.1.1.  Cache  . . . . . . . . . . . . . . . .   3
+          1.2.1.  Multiple Documents . . . . . . . . . .   1
+     1.3.  Documentation . . . . . . . . . . . . . . . .   2
+     1.4.  Handler . . . . . . . . . . . . . . . . . . .   3
+     1.5.  Jailkit . . . . . . . . . . . . . . . . . . .   3
+2.  Exacta . . . . . . . . . . . . . . . . . . . . . . .   3
+     2.1.  Generic . . . . . . . . . . . . . . . . . . .   4
+          2.1.1.  Cache  . . . . . . . . . . . . . . . .   4
      2.2.  Server  . . . . . . . . . . . . . . . . . . .   4
-     2.3.  Client  . . . . . . . . . . . . . . . . . . .   4
-          2.3.1.  Cache  . . . . . . . . . . . . . . . .   5
-     2.4.  Documentation . . . . . . . . . . . . . . . .   5
-3.  Copyright  . . . . . . . . . . . . . . . . . . . . .   5
-4.  Colophon . . . . . . . . . . . . . . . . . . . . . .   5
+     2.3.  Client  . . . . . . . . . . . . . . . . . . .   5
+          2.3.1.  Cache  . . . . . . . . . . . . . . . .   6
+     2.4.  Documentation . . . . . . . . . . . . . . . .   6
+3.  Copyright  . . . . . . . . . . . . . . . . . . . . .   6
+4.  Colophon . . . . . . . . . . . . . . . . . . . . . .   6
 
 
 
@@ -126,8 +127,7 @@ TODO                         -6-            mod_tex 0.1-beta
 
 
 
-
-                       31 January 2007
+                       1 February 2007
 
 
 
@@ -156,11 +156,6 @@ TODO                         -1-            mod_tex 0.1-beta
                Optional link map (outsource source to exter-
                nal link)?
 
-          Debug
-               Add  a verbosity option on some facilities to
-               be invoked when modtex-debug is invoked;  and
-               quiet, otherwise.
-
           Cache
                Server-side cache (outsource?)
 
@@ -185,16 +180,21 @@ TODO                         -1-            mod_tex 0.1-beta
                Replace  ad-hoc  installations  by  copytree;
                fail on directory existence.
 
-     1.3.  Documentation
+          1.2.1.  Multiple Documents
 
-          TODO Raus; find something else: bugzilla?
+               Protocol
+                    Protocol  change: return a dictionary of
+                    {MIME: ARRAY} objects; where ARRAY is an
+                    array  of  matching  documents  (such as
+                    dvipng's image-per- page).
 
-          Territory
-               Copyright notices, etc.
+               Structure
+                    Breadth-first or  depth-first:  meaning,
+                    array  of  atomic  dictionaries;  or  an
 
 
 
-                       31 January 2007
+                       1 February 2007
 
 
 
@@ -203,12 +203,72 @@ TODO                         -1-            mod_tex 0.1-beta
 TODO                         -2-            mod_tex 0.1-beta
 
 
+                    array of unbound arrays?
+
+                    Second may be slightly more efficient in
+                    those   cases   where  one  source,  for
+                    instance, wields multiple targets (e.g.,
+                    latex to multiple PNGs); but more diffi-
+                    cult to distinguish between  uneven  and
+                    incomplete data.
+
+                    First may require some redundance (e.g.,
+                    redundant MIDIs per  LilyPond  page,  or
+                    source per LaTeX image); but is cleaner,
+                    and determinant.
+
+                    The  superset  renderer  will  have   to
+                    receive  a glob of targets; but how does
+                    it distinguish between partitioned (e.g.
+                    PNGs)   and  whole  (e.g.  LaTeX-source)
+                    data?
+
+                    And if partitioned data should come back
+                    incomplete  or  in disparate quantities?
+                    Can flag partitioned data, I suppose.
+
+                    Bottom line: don't want to fuck up clean
+                    design; but may relent to multipage out-
+                    put  if  necessary.    (LilyPond's   eps
+                    driver,  for instance, outputs the whole
+                    document in one page;  can  link  to  an
+                    optional  pdf  if  multi-page  output is
+                    desirable.)
+
+                    General solution: offer optional  alter-
+                    native download (PDF, say) for multipage
+                    docs, specified as parameter.
+
+     1.3.  Documentation
+
+          Doxygen
+               Real doxygen; what to  do  about  docstrings,
+               though?  Answer:  wait until docutils matures
+               into automatic  reStructuredText  extraction.
+               (Doxygen  also  does  the  nice  call-graphs,
+               though; and (who knows?) may do docstrings at
+               some point.)
+
+          TODO Raus; find something else: bugzilla?
+
           Permissions
                Work   with   MediaWiki   to  restrict  usage
                (optionally) to certain classes of users.
 
           XML-RPC-lib
                Add fallback-support for phpxmlrpc or Incutio
+
+
+
+                       1 February 2007
+
+
+
+
+
+TODO                         -3-            mod_tex 0.1-beta
+
+
                for  those  with  little  control  over their
                installations, willing to take a  performance
                hit.
@@ -256,19 +316,6 @@ TODO                         -2-            mod_tex 0.1-beta
 
           Yes.
 
-
-
-
-
-                       31 January 2007
-
-
-
-
-
-TODO                         -3-            mod_tex 0.1-beta
-
-
      Python Apache-handler
           Trader  Joe  acts  as a middle-man between locally
           running, unprivileged, chrooted  servers  and  the
@@ -276,6 +323,17 @@ TODO                         -3-            mod_tex 0.1-beta
 
           More  efficient?  Possibly; will rebuke the prema-
           ture optimization for now.
+
+
+
+                       1 February 2007
+
+
+
+
+
+TODO                         -4-            mod_tex 0.1-beta
+
 
      THANKS
           Get Erik in there. Hephaistos, Hermes Charmophron,
@@ -322,23 +380,26 @@ TODO                         -3-            mod_tex 0.1-beta
                     temporary and permanent errors, now that
                     we have ad-hoc classes.
 
-
-
-
-
-                       31 January 2007
-
-
-
-
-
-TODO                         -4-            mod_tex 0.1-beta
-
-
      2.2.  Server
+
+          Debug
+               Add a verbosity option on some facilities  to
+               be  invoked when modtex-debug is invoked; and
+               quiet, otherwise.
 
           Config
                Simplified on excision of client.
+
+
+
+                       1 February 2007
+
+
+
+
+
+TODO                         -5-            mod_tex 0.1-beta
+
 
           Resource Limits
                Don't setrlimits in case of debug.
@@ -389,21 +450,22 @@ TODO                         -4-            mod_tex 0.1-beta
           Errors
                Unified error presentation.
 
-
-
-
-                       31 January 2007
-
-
-
-
-
-TODO                         -5-            mod_tex 0.1-beta
-
-
           Documentation
                Own  PHP-client  documentation,  or  combined
                with server's (current).
+
+
+
+
+
+                       1 February 2007
+
+
+
+
+
+TODO                         -6-            mod_tex 0.1-beta
+
 
           2.3.1.  Cache
 
@@ -425,6 +487,9 @@ TODO                         -5-            mod_tex 0.1-beta
                     sibility (cruft).
 
      2.4.  Documentation
+
+          Territory
+               Copyright notices, etc.
 
           README Mon Jan 22 08:36:11 PST 2007
                Installation
@@ -458,6 +523,7 @@ TODO                         -5-            mod_tex 0.1-beta
 
 
 
-                       31 January 2007
+
+                       1 February 2007
 
 

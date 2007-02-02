@@ -31,11 +31,12 @@ class Latex(Action):
     # @param reddendum neuter singular gerund of reddere, &ldquo;to give back.&rdquo;
     # @param self reference
     # @return a dictionary comprising resultate image and source;
-    # {'image/png': &ldquo;result&rdquo;, 'text/x-latex': &ldquo;source&rdquo;}.
+    # <tt>{'image/png': &ldquo;result&rdquo;, 'text/x-latex': &ldquo;source&rdquo;}</tt>.
     def render(self, reddendum):
         # Take only the first image produced by dvipng;
-        # TODO: glob and deliver n images.
-        TARGET = '%(action)s1.%(suffix)s'
+        # TODO: glob and deliver n images.  Could extend the
+        # protocol to MIME: ARRAY(instances); see doc/TODO.
+        TARGET = '%(action)s.%(suffix)s'
         TARGET_MIME = Constants.MIMES[Types.PNG]
         SOURCE_MIME = Constants.MIMES[Types.LATEX]
 
@@ -47,5 +48,5 @@ class Latex(Action):
         latex = self.facility
         dvipng = Config.facilities[Types.DVIPNG]
         executanda = [Execution(latex, args=[self.name]),
-                      Execution(dvipng, args=[self.name])]
+                      Execution(dvipng, args=['-o', target, self.name])]
         return super(Latex, self).render(substituendum, targets, executanda)
