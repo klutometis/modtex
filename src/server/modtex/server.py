@@ -25,7 +25,7 @@ from modtex.config import *
 from modtex.actions.math import Math
 from modtex.facility import Facility
 from modtex.constants import Constants
-from modtex.droppriv import droppriv
+from modtex.privileges import Privileges
 from modtex.logger import Logger
 
 class ModtexActions(object):
@@ -80,7 +80,7 @@ class ModtexServer(ModtexForkingMixIn, SimpleXMLRPCServer):
         chdir(root)
         chroot(root)
         # Reduce to unprivileged user
-        droppriv(Config.uid, Config.gid, EX_NOPERM)
+        Privileges(Config.uid, Config.gid, EX_NOPERM).drop()
 
         SimpleXMLRPCServer.__init__(self, (facility.host, facility.port),
                                     requestHandler=ModtexRequestHandler)

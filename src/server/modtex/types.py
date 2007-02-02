@@ -18,3 +18,4 @@ class Types(object):
     GHOSTSCRIPT = 'gs'
     LILYPOND = 'music'
     EPS = 'eps'
+    CHESS = 'chess'

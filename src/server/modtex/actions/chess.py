@@ -7,8 +7,8 @@ from modtex.constants import Constants
 from modtex.types import Types
 from modtex.config import *
 
-class Math(Latex):
-    NAME = Types.MATH
+class Chess(Latex):
+    NAME = Types.CHESS
     TEMPLATE_FILE = Constants.TEMPLATE % \
                     {'file': NAME,
                      'suffix': Constants.MIMES[Types.LATEX].suffix}
@@ -18,7 +18,7 @@ class Math(Latex):
                  facility=FACILITY):
         if not method:
             method = self.render
-        super(Math, self).__init__(name, method, template_file, facility)
+        super(Chess, self).__init__(name, method, template_file, facility)
 
     def render(self, reddendum):
-        return super(Math, self).render(reddendum)
+        return super(Chess, self).render(reddendum)

@@ -112,14 +112,15 @@ class Config(object):
     # values specify only host and port, and should therefore
     # be supersets (not strict) of the publicly exposed service.
     publicae = {
-        Types.MATH: facilities[Types.LATEX],
-        Types.DOT: facilities[Types.GRAPHVIZ],
-        Types.TWOPI: facilities[Types.GRAPHVIZ],
+        Types.CHESS: facilities[Types.LATEX],
         Types.CIRCO: facilities[Types.GRAPHVIZ],
-        Types.NEATO: facilities[Types.GRAPHVIZ],
+        Types.DOT: facilities[Types.GRAPHVIZ],
         Types.FDP: facilities[Types.GRAPHVIZ],
-        Types.LILYPOND: facilities[Types.LILYPOND],
         Types.GNUPLOT: facilities[Types.GNUPLOT],
+        Types.LILYPOND: facilities[Types.LILYPOND],
+        Types.MATH: facilities[Types.LATEX],
+        Types.NEATO: facilities[Types.GRAPHVIZ],
+        Types.TWOPI: facilities[Types.GRAPHVIZ],
         }
     # Process-ceiling for ForkingMixIn (independent of resource limits)
     max_children = 40

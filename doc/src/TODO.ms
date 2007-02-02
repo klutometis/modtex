@@ -33,6 +33,8 @@ Plenary Classes
 Replace ad-hoc installations by copytree; fail on directory existence.
 .
 .XH 2 Documentation
+.IP Doxygen
+Real doxygen; what to do about docstrings, though?
 .IP TODO
 Raus; find something else: bugzilla?
 .IP Territory

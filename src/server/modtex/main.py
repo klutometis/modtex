@@ -11,6 +11,7 @@ from signal import SIGTERM
 
 from modtex.server import ModtexServer
 from modtex.actions.math import Math
+from modtex.actions.chess import Chess
 from modtex.actions.dot import Dot
 from modtex.actions.fdp import FDP
 from modtex.actions.neato import Neato
@@ -19,7 +20,7 @@ from modtex.actions.twopi import Twopi
 from modtex.actions.lilypond import Lilypond
 from modtex.actions.gnuplot import Gnuplot
 from modtex.config import *
-from modtex.droppriv import droppriv
+from modtex.privileges import Privileges
 from modtex.constants import Constants
 from modtex.types import Types
 
@@ -40,7 +41,7 @@ class Main(object):
     ACTIONS = {
         Types.LILYPOND: [Lilypond()],
         Types.GRAPHVIZ: [Dot(), FDP(), Neato(), Circo(), Twopi()],
-        Types.LATEX: [Math()],
+        Types.LATEX: [Math(), Chess()],
         Types.GNUPLOT: [Gnuplot()],
         }
 
@@ -65,7 +66,7 @@ class Main(object):
         # a write-lock on the pid-file; worst case: it may be tampered with.
 
         # Drop privileges per configuration
-        droppriv(Config.uid, Config.gid, EX_NOPERM)
+        Privileges(Config.uid, Config.gid, EX_NOPERM).drop()
         for lockfilename in glob(join(Config.run, Constants.LOCKFILE % \
                                   {'application': Constants.APPLICATION % \
                                    {'action': WILD_CARD}})):
