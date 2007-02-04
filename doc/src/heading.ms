@@ -70,6 +70,7 @@ See doc/COPYING for details.
 .XE
 .EI \\n[xh*i]
 ..
+.
 .\" Reduces the current ident to nil and displays TOC.
 .de XHE
 .EI 0

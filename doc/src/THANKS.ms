@@ -25,7 +25,12 @@ Corporal sanity
 .IP "Genevieve Danenberg"
 Thanks, above all, to my transcendent wife; co-authrix of Beisammensein.
 .IP "Erik Moeller"
-Advocacy amongst Wikimedians
+Advocacy amongst Wikimedians.
+.IP "Phil Boswell"
+Menschheit (humanitas), good cheer, and the impetus to translate my Latin
+and Middle English into something more palatable to Tim Starling.
+.IP "Tim Starling"
+Patience while auditing my Roman style (participle-rich).
 .XH 2 Instituta
 .IP "Information Sciences Institute"
 Unmolestation
