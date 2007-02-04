@@ -19,3 +19,5 @@ class Types(object):
     LILYPOND = 'music'
     EPS = 'eps'
     CHESS = 'chess'
+    METAPOST = 'metapost'
+    FEYN = 'feyn'

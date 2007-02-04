@@ -52,7 +52,8 @@ class Config(object):
                  port=default_port + 0,
                  path='/usr/local/bin/latex',
                  wait=default_wait,
-                 args=['--interaction=nonstopmode']),
+                 args=['-interaction=nonstopmode', '-no-shell-escape',
+                       '-file-line-error', '-halt-on-error']),
 
         Types.DVIPNG:
         Facility(path='/usr/local/bin/dvipng',
@@ -60,6 +61,12 @@ class Config(object):
                  args=['--strict', '-l', '=1', '-bg', 'Transparent', '-T',
                        'tight'],
                  verbose='-v'),
+
+        Types.METAPOST:
+        Facility(path='/usr/bin/mpost',
+                 args=['-file-line-error', '-halt-on-error',
+                      '-interaction=nonstopmode'],
+                 wait=default_wait),
 
         Types.GRAPHVIZ:
         Facility(root='graphviz',
@@ -116,6 +123,7 @@ class Config(object):
         Types.CIRCO: facilities[Types.GRAPHVIZ],
         Types.DOT: facilities[Types.GRAPHVIZ],
         Types.FDP: facilities[Types.GRAPHVIZ],
+        Types.FEYN: facilities[Types.FEYN],
         Types.GNUPLOT: facilities[Types.GNUPLOT],
         Types.LILYPOND: facilities[Types.LILYPOND],
         Types.MATH: facilities[Types.LATEX],

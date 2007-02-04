@@ -8,9 +8,9 @@ See doc/COPYING for details.
 here."
 .XH 1 Exigenda
 .
-.XH 2 Generic
-.
 .XH 2 Server
+.IP File-size
+Limit requests to size X to avoid memory DoS?
 .IP Graphviz
 Optional link map (outsource source to external link)?
 .IP Cache

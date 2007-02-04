@@ -33,6 +33,7 @@ class Constants(object):
         Types.GRAPHVIZ: Mime('text/x-graphviz', 'dot'),
         Types.LATEX: Mime('text/x-latex', 'tex'),
         Types.LILYPOND: Mime('text/x-lilypond', 'ly'),
+        Types.METAPOST: Mime('text/x-metapost', 'mp'),
         Types.MIDI: Mime('audio/midi', 'midi'),
         Types.PNG: Mime('image/png', 'png'),
         }

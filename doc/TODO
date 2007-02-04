@@ -21,7 +21,7 @@
 
 
 
-1 February 2007
+4 February 2007
 
 
 
@@ -74,12 +74,11 @@ TODO                         -i-            mod_tex 0.1-beta
 
 
 1.  Exigenda . . . . . . . . . . . . . . . . . . . . . .   1
-     1.1.  Generic . . . . . . . . . . . . . . . . . . .   1
-     1.2.  Server  . . . . . . . . . . . . . . . . . . .   1
-          1.2.1.  Multiple Documents . . . . . . . . . .   1
-     1.3.  Documentation . . . . . . . . . . . . . . . .   2
-     1.4.  Handler . . . . . . . . . . . . . . . . . . .   3
-     1.5.  Jailkit . . . . . . . . . . . . . . . . . . .   3
+     1.1.  Server  . . . . . . . . . . . . . . . . . . .   1
+          1.1.1.  Multiple Documents . . . . . . . . . .   1
+     1.2.  Documentation . . . . . . . . . . . . . . . .   2
+     1.3.  Handler . . . . . . . . . . . . . . . . . . .   3
+     1.4.  Jailkit . . . . . . . . . . . . . . . . . . .   3
 2.  Exacta . . . . . . . . . . . . . . . . . . . . . . .   3
      2.1.  Generic . . . . . . . . . . . . . . . . . . .   4
           2.1.1.  Cache  . . . . . . . . . . . . . . . .   4
@@ -127,7 +126,8 @@ TODO                         -i-            mod_tex 0.1-beta
 
 
 
-                       1 February 2007
+
+                       4 February 2007
 
 
 
@@ -148,9 +148,10 @@ TODO                         -1-            mod_tex 0.1-beta
 
 1.  Exigenda
 
-     1.1.  Generic
+     1.1.  Server
 
-     1.2.  Server
+          File-size
+               Limit requests to size X to avoid memory DoS?
 
           Graphviz
                Optional link map (outsource source to exter-
@@ -160,9 +161,9 @@ TODO                         -1-            mod_tex 0.1-beta
                Server-side cache (outsource?)
 
           Templates
-               Some  protocol  options to turn off templates
-               for naked encoding (but not for gnuplot,  for
-               instance,  that  depends upon the template to
+               Some protocol options to turn  off  templates
+               for  naked encoding (but not for gnuplot, for
+               instance, that depends upon the  template  to
                return an image).
 
           Config
@@ -170,7 +171,7 @@ TODO                         -1-            mod_tex 0.1-beta
 
           Crontab
                Crontab to delete daily cruft (left over from
-               over-ambitious  users who outstrip resources,
+               over-ambitious users who outstrip  resources,
                causing files.
 
           Actions
@@ -180,21 +181,20 @@ TODO                         -1-            mod_tex 0.1-beta
                Replace  ad-hoc  installations  by  copytree;
                fail on directory existence.
 
-          1.2.1.  Multiple Documents
+          1.1.1.  Multiple Documents
 
                Protocol
-                    Protocol  change: return a dictionary of
+                    Protocol change: return a dictionary  of
                     {MIME: ARRAY} objects; where ARRAY is an
-                    array  of  matching  documents  (such as
+                    array of  matching  documents  (such  as
                     dvipng's image-per- page).
 
                Structure
-                    Breadth-first or  depth-first:  meaning,
-                    array  of  atomic  dictionaries;  or  an
+                    Breadth-first  or  depth-first: meaning,
 
 
 
-                       1 February 2007
+                       4 February 2007
 
 
 
@@ -203,48 +203,49 @@ TODO                         -1-            mod_tex 0.1-beta
 TODO                         -2-            mod_tex 0.1-beta
 
 
+                    array  of  atomic  dictionaries;  or  an
                     array of unbound arrays?
 
                     Second may be slightly more efficient in
-                    those   cases   where  one  source,  for
+                    those  cases  where  one   source,   for
                     instance, wields multiple targets (e.g.,
                     latex to multiple PNGs); but more diffi-
-                    cult to distinguish between  uneven  and
+                    cult  to  distinguish between uneven and
                     incomplete data.
 
                     First may require some redundance (e.g.,
-                    redundant MIDIs per  LilyPond  page,  or
+                    redundant  MIDIs  per  LilyPond page, or
                     source per LaTeX image); but is cleaner,
                     and determinant.
 
-                    The  superset  renderer  will  have   to
-                    receive  a glob of targets; but how does
+                    The   superset  renderer  will  have  to
+                    receive a glob of targets; but how  does
                     it distinguish between partitioned (e.g.
-                    PNGs)   and  whole  (e.g.  LaTeX-source)
+                    PNGs)  and  whole  (e.g.   LaTeX-source)
                     data?
 
                     And if partitioned data should come back
-                    incomplete  or  in disparate quantities?
+                    incomplete or in  disparate  quantities?
                     Can flag partitioned data, I suppose.
 
                     Bottom line: don't want to fuck up clean
                     design; but may relent to multipage out-
-                    put  if  necessary.    (LilyPond's   eps
-                    driver,  for instance, outputs the whole
-                    document in one page;  can  link  to  an
-                    optional  pdf  if  multi-page  output is
+                    put   if   necessary.   (LilyPond's  eps
+                    driver, for instance, outputs the  whole
+                    document  in  one  page;  can link to an
+                    optional pdf  if  multi-page  output  is
                     desirable.)
 
-                    General solution: offer optional  alter-
+                    General  solution: offer optional alter-
                     native download (PDF, say) for multipage
                     docs, specified as parameter.
 
-     1.3.  Documentation
+     1.2.  Documentation
 
           Doxygen
-               Real doxygen; what to  do  about  docstrings,
-               though?  Answer:  wait until docutils matures
-               into automatic  reStructuredText  extraction.
+               Real  doxygen;  what  to do about docstrings,
+               though? Answer: wait until  docutils  matures
+               into  automatic  reStructuredText extraction.
                (Doxygen  also  does  the  nice  call-graphs,
                though; and (who knows?) may do docstrings at
                some point.)
@@ -252,15 +253,14 @@ TODO                         -2-            mod_tex 0.1-beta
           TODO Raus; find something else: bugzilla?
 
           Permissions
-               Work   with   MediaWiki   to  restrict  usage
+               Work  with  MediaWiki   to   restrict   usage
                (optionally) to certain classes of users.
 
-          XML-RPC-lib
-               Add fallback-support for phpxmlrpc or Incutio
 
 
 
-                       1 February 2007
+
+                       4 February 2007
 
 
 
@@ -269,27 +269,29 @@ TODO                         -2-            mod_tex 0.1-beta
 TODO                         -3-            mod_tex 0.1-beta
 
 
-               for  those  with  little  control  over their
-               installations, willing to take a  performance
+          XML-RPC-lib
+               Add fallback-support for phpxmlrpc or Incutio
+               for those  with  little  control  over  their
+               installations,  willing to take a performance
                hit.
 
-     1.4.  Handler
+     1.3.  Handler
 
           Throttle
-               A  "check back in X seconds" message on over-
+               A "check back in X seconds" message on  over-
                usage.
 
           Database
                Swap  out  home-brew  lock  system  for  some
-               heavy-duty  piece-of-shit  (mysql, say; post-
+               heavy-duty piece-of-shit (mysql,  say;  post-
                gre; or even sqlite3).
 
-     1.5.  Jailkit
+     1.4.  Jailkit
 
           Paths
-               Dynamic jailkit with gno-tools  (./configure,
-               etc.);  throw  in  --with-user, --with-group,
-               etc.; or:  make  a  build_jailkit  target  in
+               Dynamic  jailkit with gno-tools (./configure,
+               etc.); throw  in  --with-user,  --with-group,
+               etc.;  or:  make  a  build_jailkit  target in
                setup.py.
 
 2.  Exacta
@@ -303,30 +305,28 @@ TODO                         -3-            mod_tex 0.1-beta
           age, or utterly segregated (thus possibly not con-
           fusing the client-users)?
 
-          Latter: combined  source;  `src'  directory:  con-
+          Latter:  combined  source;  `src'  directory: con-
           tains: `client', `server'.
 
      PHP-client
-          Basic  request working; now to do something useful
+          Basic request working; now to do something  useful
           with it.
 
      Temp-dir
-          Does cleanup happen after exceptions? (The  object
+          Does  cleanup happen after exceptions? (The object
           is deleted, after all.)
 
           Yes.
 
      Python Apache-handler
-          Trader  Joe  acts  as a middle-man between locally
-          running, unprivileged, chrooted  servers  and  the
+          Trader Joe acts as a  middle-man  between  locally
+          running,  unprivileged,  chrooted  servers and the
           requesting public.
 
-          More  efficient?  Possibly; will rebuke the prema-
-          ture optimization for now.
 
 
 
-                       1 February 2007
+                       4 February 2007
 
 
 
@@ -335,12 +335,15 @@ TODO                         -3-            mod_tex 0.1-beta
 TODO                         -4-            mod_tex 0.1-beta
 
 
+          More efficient? Possibly; will rebuke  the  prema-
+          ture optimization for now.
+
      THANKS
           Get Erik in there. Hephaistos, Hermes Charmophron,
           Apollon, Hestia, Hera, Athena, dodeka Theoi.
 
      Footer/Header
-          mod_tex  <VERSION>  in  footers or headers, across
+          mod_tex <VERSION> in footers  or  headers,  across
           from date
 
      Honest work in subserver
@@ -350,7 +353,7 @@ TODO                         -4-            mod_tex 0.1-beta
           Installs into web-root and changes ownership.
 
      Title page
-          ms-macro to institute  title  page  (include  with
+          ms-macro  to  institute  title  page (include with
           .so)
 
      License
@@ -367,32 +370,29 @@ TODO                         -4-            mod_tex 0.1-beta
                     Problem: in 1.0+, failed rendering don't
                     get cached and are rerendered every day.
 
-                    Distinguish,  therefore, between server-
-                    and syntax-failures; and  cache  accord-
+                    Distinguish, therefore, between  server-
+                    and  syntax-failures;  and cache accord-
                     ingly.
 
-                    No:  a  simple  flag  PHP side will turn
-                    on/off error caching;  functioning  sys-
-                    tems  can  turn  it off for performance,
+                    No: a simple flag  PHP  side  will  turn
+                    on/off  error  caching; functioning sys-
+                    tems can turn it  off  for  performance,
                     and for debugging purposes: back on.
 
-                    It may be useful to distinguish  between
+                    It  may be useful to distinguish between
                     temporary and permanent errors, now that
                     we have ad-hoc classes.
 
      2.2.  Server
 
           Debug
-               Add a verbosity option on some facilities  to
-               be  invoked when modtex-debug is invoked; and
+               Add  a verbosity option on some facilities to
+               be invoked when modtex-debug is invoked;  and
                quiet, otherwise.
 
-          Config
-               Simplified on excision of client.
 
 
-
-                       1 February 2007
+                       4 February 2007
 
 
 
@@ -401,19 +401,22 @@ TODO                         -4-            mod_tex 0.1-beta
 TODO                         -5-            mod_tex 0.1-beta
 
 
+          Config
+               Simplified on excision of client.
+
           Resource Limits
                Don't setrlimits in case of debug.
 
           Facilities
                Facility constructor takes merely a **kwargs,
-               and  populates  accordingly; no pre-set vars.
+               and populates accordingly; no  pre-set  vars.
                (Implemented: pre-set args and **kwargs.)
 
           Debug
                build_scripts command which takes --debug and
                disables optimization in modtex-main.py
 
-               No:  rather a modtex/main.py, and two trivial
+               No: rather a modtex/main.py, and two  trivial
                wrappers: modtex and modtex- debug, which are
                invoked with `python -O' and `python' respec-
                tively.
@@ -425,17 +428,17 @@ TODO                         -5-            mod_tex 0.1-beta
                Per-request (post droppriv)
 
           MIME-types
-               Currently a non-descript list  in  Constants;
-               instantiate  MIME-wrappers  with well-defined
+               Currently  a  non-descript list in Constants;
+               instantiate MIME-wrappers  with  well-defined
                instance variables.
 
           Delivery
-               Client-server contract for  the  delivery  of
+               Client-server  contract  for  the delivery of
                content (keys for XMLRPC response); encode in
                a format parseable by PHP: XML, say?
 
                Right now: using an implicit contract (image:
-               content).   A low-tech published API may suf-
+               content).  A low-tech published API may  suf-
                fice.
 
      2.3.  Client
@@ -444,7 +447,7 @@ TODO                         -5-            mod_tex 0.1-beta
                `errors' directory to house the manifold.
 
           Authentication
-               CURL-lib on PHP can  handle  basic  and  key-
+               CURL-lib  on  PHP  can  handle basic and key-
                based.
 
           Errors
@@ -452,13 +455,10 @@ TODO                         -5-            mod_tex 0.1-beta
 
           Documentation
                Own  PHP-client  documentation,  or  combined
-               with server's (current).
 
 
 
-
-
-                       1 February 2007
+                       4 February 2007
 
 
 
@@ -467,23 +467,25 @@ TODO                         -5-            mod_tex 0.1-beta
 TODO                         -6-            mod_tex 0.1-beta
 
 
+               with server's (current).
+
           2.3.1.  Cache
 
                Purview
-                    Use MediaWiki mechanism with  its  over-
+                    Use  MediaWiki  mechanism with its over-
                     head, or some ad-hoc system?
 
                MediaWiki
-                    MediaWiki  mechanism: must be tweaked to
-                    forbid arbitrary upload; but can  detect
+                    MediaWiki mechanism: must be tweaked  to
+                    forbid  arbitrary upload; but can detect
                     orphaned files: Special:Unusedimages.
 
-                    Must  forge,  apparently,  a subclass of
-                    WebRequest, filling in  artificial  val-
+                    Must forge, apparently,  a  subclass  of
+                    WebRequest,  filling  in artificial val-
                     ues.
 
                Home-brew
-                    Own  mechanism: lightweight; but respon-
+                    Own mechanism: lightweight; but  respon-
                     sibility (cruft).
 
      2.4.  Documentation
@@ -495,7 +497,7 @@ TODO                         -6-            mod_tex 0.1-beta
                Installation
 
           Build Sun Jan 21 01:46:55 PST 2007
-               Build target in Setup.py  which  invokes  the
+               Build  target  in  Setup.py which invokes the
                Makefile in doc.
 
 3.  Copyright
@@ -504,26 +506,90 @@ TODO                         -6-            mod_tex 0.1-beta
      Copyright (C) 2007 Peter Danenberg
 
           You should have received a copy of the GNU General
-     Public License version 2 along with  this  program;  if
-     not,  write  to  the Free Software Foundation, Inc., 51
-     Franklin Street, Fifth Floor, Boston,  MA   02110-1301,
+     Public  License  version  2 along with this program; if
+     not, write to the Free Software  Foundation,  Inc.,  51
+     Franklin  Street,  Fifth Floor, Boston, MA  02110-1301,
      USA.
 
 4.  Colophon
 
-          This  document was prepared in GNU troff using the
+          This document was prepared in GNU troff using  the
      ms macro package; preprocessed with tbl, the table for-
-     matter;  and  lastly  filtered  through  col  to remove
+     matter; and  lastly  filtered  through  col  to  remove
      reverse line feeds and tabs:
 
           groff -ms -t -Tascii SOURCE | col -bx > OUT
 
-     Automatically generated contents were moved  from  page
+
+
+
+
+                       4 February 2007
+
+
+
+
+
+TODO                         -7-            mod_tex 0.1-beta
+
+
+     Automatically  generated  contents were moved from page
      last to first with an ad-hoc bash-diddy.
 
 
 
 
-                       1 February 2007
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                       4 February 2007
 
 

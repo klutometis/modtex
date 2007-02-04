@@ -12,6 +12,7 @@ from signal import SIGTERM
 from modtex.server import ModtexServer
 from modtex.actions.math import Math
 from modtex.actions.chess import Chess
+from modtex.actions.feyn import Feyn
 from modtex.actions.dot import Dot
 from modtex.actions.fdp import FDP
 from modtex.actions.neato import Neato
@@ -41,7 +42,7 @@ class Main(object):
     ACTIONS = {
         Types.LILYPOND: [Lilypond()],
         Types.GRAPHVIZ: [Dot(), FDP(), Neato(), Circo(), Twopi()],
-        Types.LATEX: [Math(), Chess()],
+        Types.LATEX: [Math(), Chess(), Feyn()],
         Types.GNUPLOT: [Gnuplot()],
         }
 
