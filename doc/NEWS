@@ -74,8 +74,8 @@ NEWS                         -i-            mod_tex 0.1-beta
 
 
 1.  News . . . . . . . . . . . . . . . . . . . . . . . .   1
-2.  Copyright  . . . . . . . . . . . . . . . . . . . . .   1
-3.  Colophon . . . . . . . . . . . . . . . . . . . . . .   1
+2.  Copyright  . . . . . . . . . . . . . . . . . . . . .   2
+3.  Colophon . . . . . . . . . . . . . . . . . . . . . .   2
 
 
 
@@ -148,16 +148,63 @@ NEWS                         -1-            mod_tex 0.1-beta
 
 1.  News
 
+     Sun Feb  4 19:57:59 PST 2007
+          We  decided,  again,  to  support  XyMTeX  as  the
+          default chemical interpreter.
+
+          I considered looking into a SMILES/InChi-to-graph-
+          ics pathway; but BKChem, the only interpreter that
+          seems to do batch processing,  requires  a  frame-
+          buffer.
+
+          Also,  an  interesting  discussion at WikiProject-
+          Chemistry:[1]
+
+               [SMILES  is]  okay  for simple stuff, but for
+               anything more complicated, it  becomes  irri-
+               tating  to not be able to define the orienta-
+               tion that you actually want in  the  diagram.
+               For some things, it's impossible: try getting
+               any app to draw a  metallocene  legibly  from
+               SMILES :-)
+               --Iridium77 23:09, 4 Mar 2004 (UTC)
+
+          The question is, therefore, XyMTeX vs. PPCHTeX:[2]
+
+               The  [downside]  of [PPCHTeX] is that it han-
+               dles anything other than plane structures  of
+               five- and sixrings very badly.
+               --Sverdrup 10:28, 20 Oct 2004 (UTC)
+
+          A  compromise?   XyMTeX  by default, possibly, and
+          some flag or non-standard tag to expose PPCHTeX.
+
      Sun Feb  4 05:29:55 PST 2007
-          Added  support  for  FeynMF  today (<feyn></feyn);
+          Added support  for  FeynMF  today  (<feyn></feyn);
           recently gnuplot and LilyPond made the cut.
 
-          During this phase we also spun-off  mod_tex  as  a
-          separate  entity,  and WikiTeX as an ad-hoc Media-
+          During  this  phase  we also spun-off mod_tex as a
+          separate entity, and WikiTeX as an  ad-hoc  Media-
           Wiki client that connects thither.
 
-          Near term:  finish  off  remaining  classes  (cir-
-          cuits?);  may  verzichten  upon Greek and Tipa, or
+
+-----------
+  1. http://en.wikipedia.org/wiki/Wikipedia_talk:WikiProject_Chemistry/archive01
+  2. http://en.wikipedia.org/wiki/User_talk:Sverdrup/Archive_2
+
+
+
+                       4 February 2007
+
+
+
+
+
+NEWS                         -2-            mod_tex 0.1-beta
+
+
+          Near  term:  finish  off  remaining  classes (cir-
+          cuits?); may verzichten upon Greek  and  Tipa,  or
           give them unicode backends.
 
 2.  Copyright
@@ -166,22 +213,41 @@ NEWS                         -1-            mod_tex 0.1-beta
      Copyright (C) 2007 Peter Danenberg
 
           You should have received a copy of the GNU General
-     Public  License  version  2 along with this program; if
-     not, write to the Free Software  Foundation,  Inc.,  51
-     Franklin  Street,  Fifth Floor, Boston, MA  02110-1301,
+     Public License version 2 along with  this  program;  if
+     not,  write  to  the Free Software Foundation, Inc., 51
+     Franklin Street, Fifth Floor, Boston,  MA   02110-1301,
      USA.
 
 3.  Colophon
 
-          This document was prepared in GNU troff using  the
+          This  document was prepared in GNU troff using the
      ms macro package; preprocessed with tbl, the table for-
-     matter; and  lastly  filtered  through  col  to  remove
+     matter;  and  lastly  filtered  through  col  to remove
      reverse line feeds and tabs:
 
           groff -ms -t -Tascii SOURCE | col -bx > OUT
 
-     Automatically  generated  contents were moved from page
+     Automatically generated contents were moved  from  page
      last to first with an ad-hoc bash-diddy.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
