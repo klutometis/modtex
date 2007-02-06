@@ -429,6 +429,8 @@ README                       -5-            mod_tex 0.1-beta
 
                patch -p1 < gnuplot-4.0.0-no-system.patch
 
+          Then build normally.
+
      4.3.  LilyPond
 
           Prerequisites:
@@ -453,8 +455,6 @@ README                       -5-            mod_tex 0.1-beta
   15. http://www.fontconfig.org
   16. http://www.pango.org
   17. http://www.cs.wisc.edu/~ghost
-  18. http://www.graphviz.org
-  19. http://www.pango.org
 
 
 
@@ -511,9 +511,9 @@ README                       -6-            mod_tex 0.1-beta
                                               ...-daemon
 
 
-          The daemons should not be accessible to the intar-
-     web at large.
 -----------
+  18. http://www.graphviz.org
+  19. http://www.pango.org
   20. http://www.fontconfig.org
   21. http://match.stanford.edu/bump/go.html
   22. TeX  Live  (http://www.tug.org/texlive)  has
@@ -532,6 +532,9 @@ should be possible using curl's transport-layer.
 
 README                       -7-            mod_tex 0.1-beta
 
+
+          The daemons should not be accessible to the intar-
+     web at large.
 
 6.  Copyright
 
@@ -555,9 +558,6 @@ README                       -7-            mod_tex 0.1-beta
 
      Automatically generated contents were moved  from  page
      last to first with an ad-hoc bash-diddy.
-
-
-
 
 
 

@@ -241,6 +241,8 @@ issue:
 .QP
 .nf
 patch -p1 < gnuplot-4.0.0-no-system.patch
+.LP
+Then build normally.
 .fi
 .XH 2 LilyPond
 .IP Prerequisites:
