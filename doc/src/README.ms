@@ -19,7 +19,6 @@ LaTeX, dvipng, etc.\**
 See section 4, Chroot; the number of dependencies is proportional to the number of packages you'd like to support.
 .FE
 .XH 1 Installation
-.PP
 .XH 2 Server
 .nr i 0 1
 .IP \n+i.

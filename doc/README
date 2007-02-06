@@ -158,7 +158,6 @@ README                       -1-            mod_tex 0.1-beta
 
 1.  Installation
 
-
      1.1.  Server
 
           1.   Copy src/server/modtex/config/default.py to:
@@ -183,6 +182,7 @@ README                       -1-            mod_tex 0.1-beta
           6.   Set   up   as  many  chroot  environments  in
                /usr/local/var/modtex as you'd like  to  sup-
                port.[4]
+
 -----------
   1. See  section  4, Chroot; the number of depen-
 dencies is proportional to the number of  packages
