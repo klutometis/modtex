@@ -234,6 +234,14 @@ http://www.fontconfig.org
 .FE
 .IP Jailkits:
 gnuplot, fontconfig, fonts
+.PP
+IMPORTANT: disable system-calls in Gnuplot by applying the patch found in
+\(oqsrc/patches\(cq before building Gnuplot; from Gnuplot's source directory,
+issue:
+.QP
+.nf
+patch -p1 < gnuplot-4.0.0-no-system.patch
+.fi
 .XH 2 LilyPond
 .IP Prerequisites:
 LilyPond,\**
