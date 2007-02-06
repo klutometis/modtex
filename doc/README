@@ -423,9 +423,8 @@ README                       -5-            mod_tex 0.1-beta
                gnuplot, fontconfig, fonts
 
                IMPORTANT: disable system-calls in Gnuplot by
-          applying  the  patch found in `src/patches' before
-          building Gnuplot; from Gnuplot's source directory,
-          issue:
+          applying  the  patch  found in `src/patches'; from
+          Gnuplot's source directory, issue:
 
                patch -p1 < gnuplot-4.0.0-no-system.patch
 
@@ -434,13 +433,13 @@ README                       -5-            mod_tex 0.1-beta
      4.3.  LilyPond
 
           Prerequisites:
-               LilyPond,[13]   Guile,[14]    Fontconfig,[15]
+               LilyPond,[13]    Guile,[14]   Fontconfig,[15]
                Pango,[16] Ghostscript[17]
 
           Jailkits:
                guile, fontconfig, pango, ghostscript, fonts
 
-               For  building LilyPond, there are more requi-
+               For building LilyPond, there are more  requi-
           sites; see `INSTALL.txt'.
 
      4.4.  Graphviz
@@ -455,6 +454,7 @@ README                       -5-            mod_tex 0.1-beta
   15. http://www.fontconfig.org
   16. http://www.pango.org
   17. http://www.cs.wisc.edu/~ghost
+  18. http://www.graphviz.org
 
 
 
@@ -473,7 +473,7 @@ README                       -6-            mod_tex 0.1-beta
                pango, fontconfig, fonts
 
                `dot' should be linked to `dot_static' before
-          installation   (provided   that   you  built  with
+          installation  (provided  that   you   built   with
           `--enable-static').
 
      4.5.  sgf2dg
@@ -484,24 +484,24 @@ README                       -6-            mod_tex 0.1-beta
           Jailkits:
                latex, perl, dvipng, mktexpk
 
-               Since  Perl is a significant requirement over
-          and above basic  LaTeX  packages,  we  decided  to
-          install  sgf2dg in its own root for people willing
+               Since Perl is a significant requirement  over
+          and  above  basic  LaTeX  packages,  we decided to
+          install sgf2dg in its own root for people  willing
           to incur the cost.
 
 5.  Architecture
 
-          In short, an XML-RPC client (e.g., the  MediaWiki-
-     client)  connects  to  the mod_python frontend ("Trader
+          In  short, an XML-RPC client (e.g., the MediaWiki-
+     client) connects to the  mod_python  frontend  ("Trader
      Joe") served by Apache.
 
           Trader  Joe,  in  turn,  connects  to  autonomous,
-     unprivileged,  chrooted  daemons  sitting  on arbitrary
+     unprivileged, chrooted  daemons  sitting  on  arbitrary
      machines, that actually render the content.
 
-          After  authentication,[24]  but  before Trader Joe
+          After authentication,[24] but  before  Trader  Joe
      befrays the rendering drones, he checks an IP->CPU-time
-     database  to  see  whether the client has used up their
+     database to see whether the client has  used  up  their
      allotted rendering time.
 
                                               LaTeX-daemon
@@ -511,15 +511,15 @@ README                       -6-            mod_tex 0.1-beta
                                               ...-daemon
 
 
+
 -----------
-  18. http://www.graphviz.org
   19. http://www.pango.org
   20. http://www.fontconfig.org
   21. http://match.stanford.edu/bump/go.html
   22. TeX  Live  (http://www.tug.org/texlive)  has
 superseded teTeX (http://www.tug.org/tetex).
   23. http://www.perl.com
-  24. Trader Joe uses basic-,  but  key-based-auth
+  24. Trader  Joe  uses basic-, but key-based-auth
 should be possible using curl's transport-layer.
 
 
@@ -542,21 +542,21 @@ README                       -7-            mod_tex 0.1-beta
      Copyright (C) 2007 Peter Danenberg
 
           You should have received a copy of the GNU General
-     Public License version 2 along with  this  program;  if
-     not,  write  to  the Free Software Foundation, Inc., 51
-     Franklin Street, Fifth Floor, Boston,  MA   02110-1301,
+     Public  License  version  2 along with this program; if
+     not, write to the Free Software  Foundation,  Inc.,  51
+     Franklin  Street,  Fifth Floor, Boston, MA  02110-1301,
      USA.
 
 7.  Colophon
 
-          This  document was prepared in GNU troff using the
+          This document was prepared in GNU troff using  the
      ms macro package; preprocessed with tbl, the table for-
-     matter;  and  lastly  filtered  through  col  to remove
+     matter; and  lastly  filtered  through  col  to  remove
      reverse line feeds and tabs:
 
           groff -ms -t -Tascii SOURCE | col -bx > OUT
 
-     Automatically generated contents were moved  from  page
+     Automatically  generated  contents were moved from page
      last to first with an ad-hoc bash-diddy.
 
 
