@@ -2,6 +2,13 @@
 # mod_tex: distributed LaTeX-rendering over Apache
 # Copyright (C) 2007 Peter Danenberg
 # See doc/COPYING for details.
+# 
+# @file
+# Defines mutable parameters that should be tweaked for the local system
+# (as opposed to \sa constants.py, \sa Constants, which are relatively
+# immutable).
+#
+# Copy to <tt>local.py</tt> before editing.
 from signal import SIGTERM, SIGKILL
 from resource import RLIMIT_CORE, RLIMIT_CPU, RLIMIT_FSIZE, RLIMIT_DATA, \
      RLIMIT_STACK, RLIMIT_RSS, RLIMIT_NPROC, RLIMIT_NOFILE, RLIMIT_OFILE, \
@@ -123,12 +130,13 @@ class Config(object):
         Types.CIRCO: facilities[Types.GRAPHVIZ],
         Types.DOT: facilities[Types.GRAPHVIZ],
         Types.FDP: facilities[Types.GRAPHVIZ],
-        Types.FEYN: facilities[Types.FEYN],
+        Types.FEYN: facilities[Types.LATEX],
         Types.GNUPLOT: facilities[Types.GNUPLOT],
         Types.LILYPOND: facilities[Types.LILYPOND],
         Types.MATH: facilities[Types.LATEX],
         Types.NEATO: facilities[Types.GRAPHVIZ],
         Types.TWOPI: facilities[Types.GRAPHVIZ],
+        Types.XYMTEX: facilities[Types.LATEX],
         }
     # Process-ceiling for ForkingMixIn (independent of resource limits)
     max_children = 40

@@ -4,7 +4,7 @@
 VERSION=%(version)s
 TARGET=..
 GROFF=groff
-GRFLAGS=-ms -Tascii
+GRFLAGS=-ms -t -Tascii
 COL=col
 COFLAGS=-bx
 CP=cp

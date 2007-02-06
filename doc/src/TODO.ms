@@ -9,6 +9,21 @@ here."
 .XH 1 Exigenda
 .
 .XH 2 Server
+.IP Parse-trees
+Bring back parse-trees, since Graphviz is not a drop-in replacement.
+.IP Back-end
+Transition to an array of chrooted Apaches; dump SimpleXMLRPCServer
+on the back-end.
+.IP Error-messages
+Facilities-flag in default.py to return output from a process, giving
+feedback; useful for: LaTeX or LilyPond, for instance, to disclose
+syntax errors.
+.IP
+Not so useful for dvipng, etc. (sysadmins can retrieve that from the
+syslog).
+.IP
+Some way to scrub sensitive data like paths? The chroot path-structure
+is well documented, though.
 .IP File-size
 Limit requests to size X to avoid memory DoS?
 .IP Graphviz

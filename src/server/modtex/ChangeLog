@@ -1,5 +1,9 @@
 2007-02-04  Peter Danenberg  <pcd at wikitex dot org>
 
+	* actions/xymtex.py: added.
+
+	* templates/xymtex.tex: added.
+
 	* templates/feyn.tex: added.
 
 	* actions/feyn.py: added.
@@ -77,4 +81,3 @@
 
 	* install.py (install_web.run): create the ip-throttle-database
 	if it doesn't exist, own it to the webserver.
-

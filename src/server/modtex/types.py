@@ -21,3 +21,4 @@ class Types(object):
     CHESS = 'chess'
     METAPOST = 'metapost'
     FEYN = 'feyn'
+    XYMTEX = 'xymtex'

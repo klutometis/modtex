@@ -7,17 +7,16 @@ See doc/COPYING for details.
 .so title.ms
 .TI README "README covers hortation and installation."
 .XH 1 Prerequisites S 0
-.XH 2 Server
 .IP \(bu
 Apache
 .IP \(bu
 mod_python
 .IP \(bu
-teTeX and dvipng (or TeX Live)
+Python 2.5
 .IP \(bu
-Python 2.5\**
+LaTeX, dvipng, etc.\**
 .FS
-We take advantage of with-statements which will become native in 2.6.
+See section 4, Chroot; the number of dependencies is proportional to the number of packages you'd like to support.
 .FE
 .XH 1 Installation
 .PP
@@ -35,6 +34,13 @@ Edit local.py to satisfaction.\**
 See section 3, Configuration.
 .FE
 .IP \n+i.
+Create user \(oqmodtex\(cq and \(oqmodtex\(cq-group.\**
+.FS
+Or whatever user and group was provided in \(oqlocal.py\(cq.
+.FE
+.IP \n+i.
+Mount a file system on /usr/local/var/modtex with NOSUID (optional).
+.IP \n+i.
 Run:
 .IP
 .RS
@@ -47,26 +53,10 @@ and:
 sudo python setup.py install
 .RE
 .IP \n+i.
-(Optional) Mount /usr/local/var/modtex on its own partition with NOSUID.
-.IP \n+i.
-Set up a chroot environment in /usr/local/var/modtex/latex for teTeX and dvipng.\**
+Set up as many chroot environments in /usr/local/var/modtex as you'd like to support.\**
 .FS
 See section 4, Chroot.
 .FE
-.IP \n+i.
-Within the chroot, edit texmf.cnf to read:
-.IP
-.RS
-shell_escape = f
-.br
-openout_any = p
-.br
-openin_any = p
-.RE
-.IP \n+i.
-???
-.IP \n+i.
-Profit!
 .XH 2 Handler
 .PP
 The Apache-handler mediates between the client and chrooted daemons; it requires mod_python.
@@ -85,115 +75,245 @@ You may need to edit the .htaccess which was installed, by default, in:
 .RE
 .XH 1 Execution
 .PP
-`modtex' and `modtex-debug' are installed by default in /usr/local/bin.  They both take `start' and `stop' as arguments, but `modtex-debug' provides some additional output to the syslog and keeps all work directories intact in /usr/local/var/modtex/latex/tmp for inspection.
+\(oqmodtex\(cq and \(oqmodtex-debug\(cq are installed by default in /usr/local/bin.
+They both take \(oqstart\(cq and \(oqstop\(cq as arguments, but \(oqmodtex-debug\(cq provides
+some additional output to the syslog and keeps all work directories intact
+in /usr/local/var/modtex/<root>/tmp for inspection.
 .PP
-`modtex-debug' also refrains from setting resource limits, since setting resource limits can introduce anti-intuitive errors and must be done with care.
+\(oqmodtex-debug\(cq also refrains from setting resource limits, since setting
+resource limits can introduce anti-intuitive errors and must be done with
+care.
 .PP
-`modtex', on the other hand, cleans up work directories (except in cases of resource-faults); and prints minimally to syslog.
+\(oqmodtex\(cq, on the other hand, cleans up work directories (except in cases
+of resource-faults); and prints minimally to syslog.
 .PP
-`modtex' and `modtex-debug' need to be run as root to chroot into the rendering environment, but drop privileges immediately to modtex:modtex.
+\(oqmodtex\(cq and \(oqmodtex-debug\(cq need to be run as root to chroot into the
+rendering environment, but drop privileges immediately to modtex:modtex.
 .XH 1 Configuration
 .XH 2 Directories
 .PP
-mod_tex allows relatively fine-tuned control over the install-location, and provides some reasonable defaults.
+mod_tex allows relatively fine-tuned control over the install-location,
+and provides some reasonable defaults.
 .XH 2 Users
 .PP
-mod_tex also allows the ability to specify the nonprivileged user to whom it will drop after detaching from the console; it should be distinct from the Apache user, and ideally ad-hoc.
+mod_tex also allows the ability to specify the nonprivileged user to whom
+it will drop after detaching from the console; it should be distinct from
+the Apache user, and ideally ad-hoc.
 .XH 2 Facilities
 .PP
-Please inspect the facilities section to make sure that they correspond to your chroot environment; in particular, you will need to specify absolute paths to binaries.
+Please inspect the facilities section to make sure that they correspond to
+your chroot environment; in particular, you will need to specify absolute
+paths to binaries.
 .XH 2 Resources
 .PP
-mod_tex's resource managament has three layers: internal, kernel-enforced and per-user.
+mod_tex's resource managament has three layers: internal, kernel-enforced
+and per-user.
 .XH 3 Internal
 .PP
-The `default_wait' dictionary provides fine-grained control over signals sent to runaway processes; `default_wait' works over and above RLIMIT_CPU, whose effects can be hard to predict.
+The \(oqdefault_wait\(cq dictionary provides fine-grained control over signals
+sent to runaway processes; \(oqdefault_wait\(cq works over and above RLIMIT_CPU,
+whose effects can be hard to predict.
 .XH 3 Kernel-Enforced
 .PP
-Read more about kernel-limits in `man setrlimit'; mod_tex includes fairly Draconian policies which may need to be relaxed for production-sites.
+Read more about kernel-limits in \(oqman setrlimit\(cq; mod_tex includes fairly
+Draconian policies which may need to be relaxed for production-sites.
 .XH 3 Per-User
 .PP
-`ctime_unit' and `max_ctime_per_unit' provide ways to limit resource-usage from particular users.  mod_tex calculates how much CPU-time a user has usurped within one `ctime_unit'; if its usage exceeds `max_ctime_per_unit' with that unit of time, the request is temporarily denied.
+\(oqctime_unit\(cq and \(oqmax_ctime_per_unit\(cq provide ways to limit resource-usage
+from particular users.  mod_tex calculates how much CPU-time a user has
+usurped within one \(oqctime_unit\(cq; if its usage exceeds \(oqmax_ctime_per_unit\(cq
+with that unit of time, the request is temporarily denied.
 .PP
-The upshot is that users may have to submit several requests to complete a particularly time-consuming document.
+The upshot is that users may have to submit several requests to complete a
+particularly time-consuming document.
 .XH 1 Chroot
+.nr table 0
 .PP
-Chrooting is art and science; and can be risky if, for instance, you leave suid-binaries lying around.
+Chrooting is art and science; and can be risky if, for instance, you leave
+suid-binaries lying around.
 .PP
-Rebuild ld.so.cache within the jail after changing libs.
-.PP
-That said, Jailkit\**
+Modtex provides jailkit.ini in \(oqsrc/jailkit\(cq which, when used with
+Olivier Sessink's Jailkit,\**
 .FS
 http://olivier.sessink.nl/jailkit
 .FE
-and Makejail\**
-.FS
-http://www.floc.net/makejail
-.FE
-are useful utilities.
+can help with the mechanics of chrooting.
+.PP
+Here's a mapping of actions to entities, for which see the relevant sections
+below:
+.nr table +1
+.TS
+center;
+l s .
+Table \*[SN]\n[table]. Actions and entities
+_
+.T&
+l l .
+Action	Entity
+_
+chemistry	LaTeX
+chess	LaTeX
+Feynman diagrams	LaTeX
+go	sgf2dg
+graphs	Graphviz
+math	LaTeX
+music	LilyPond
+plotting	Gnuplot
+_
+.TE
+.PP
+Each jailed entity has prerequisite software, and relevant sections
+of \(oqjailkit.ini\(cq.
+.PP
+Nota bene: ld.so.cache is not automatically copied to the root, and
+needs to be rebuilt by running /sbin/ldconfig from within the root
+after installation.
+.PP
+Nota item bene: \(oqjailkit.ini\(cq assumes that most packages were
+build with \(oq--enable-static\(cq; YMMV.
 .XH 2 LaTeX
-.PP
-TeX Live\**
+.nr table 0
+.IP Prerequisites:
+LaTeX,\**
 .FS
-http://www.tug.org/texlive
+TeX Live (http://www.tug.org/texlive) has superseded teTeX (http://www.tug.org/tetex).
 .FE
-provides a statically-linked dvipng in its full installation, and significantly reduces the library-overhead.
+dvipng,\**
+.FS
+\%http://sourceforge.net/projects/dvipng
+.FE
+FreeType\**
+.FS
+For best results, enable the byte-code interpreter. http://www.freetype.org
+.FE
+.IP Jailkits:
+latex, mktexpk, shell\**,
+.FS
+\(oqmktexpk\(cq, unfortunately, requires a shell; if you can build the
+requisite PK files by manually chrooting into the environment, however,
+you may be able to dispense with the shell.
 .PP
-When running `install-tl.sh', supply the following (or similar) for TEXDIR:
-.QP
-\%/usr/local/var/modtex/latex/usr/local/texlive
+Try generating the PKs by running a test-case through latex and dvipng.
+.FE
+dvipng, freetype
+.IP "Additional packages:"
+.nr table +1
+.TS H
+center;
+l s s s .
+Table \*[SN]\n[table]. Additional packages
+_
+.TH
+.T&
+l l l c .
+Action	Package	Site	Included[a]
+_
+chem	XyMTeX	imt.chem.kit.ac.jp	
+chess	skak	ctan.org	*
+	skaknew	ctan.org	*
+	texmate	ctan.org	*
+feyn	FeynMF	ctan.org	*
+math	AMS-LaTeX	ams.org	*
+.T&
+l s s s .
+_
+a. May be included in TeX Live.
+.TE
 .PP
-The latex-facility in local.py may need to be adjusted accordingly; for instance:
-.QP
-\%/usr/local/texlive/bin/i386-linux/latex
-.LP
-in lieu of /usr/local/teTeX/bin/latex.
+Don't forget to manually run \(oqtexhash\(cq and \(oqupdmap\(cq from within
+the chroot.
+.XH 2 Gnuplot
+.IP Prerequisites:
+Gnuplot,\**
+.FS
+http://www.gnuplot.info
+.FE
+Fontconfig\**
+.FS
+http://www.fontconfig.org
+.FE
+.IP Jailkits:
+gnuplot, fontconfig, fonts
+.XH 2 LilyPond
+.IP Prerequisites:
+LilyPond,\**
+.FS
+http://lilypond.org
+.FE
+Guile,\**
+.FS
+http://www.gnu.org/software/guile/guile.html
+.FE
+Fontconfig,\**
+.FS
+http://www.fontconfig.org
+.FE
+Pango,\**
+.FS
+http://www.pango.org
+.FE
+Ghostscript\**
+.FS
+http://www.cs.wisc.edu/~ghost
+.FE
+.IP Jailkits:
+guile, fontconfig, pango, ghostscript, fonts
+.PP
+For building LilyPond, there are more requisites; see \(oqINSTALL.txt\(cq.
 .XH 2 Graphviz
-.PP
-Using Jailkit, and after compiling GTK+, GLib, Pango, Cairo, Fontconfig and Graphviz with `--enable-static',\**
+.IP Prerequisites:
+Graphviz,\**
 .FS
-To make life easier, Graphviz was configured with `--disable-swig'; also, `/usr/local/bin/dot' must be manually linked to `dot_static'.
+http://www.graphviz.org
 .FE
-the following sufficed for our entry in `jk_init.ini':
-.LP
-.RS
-.nf
-[dot]
-executables = /usr/local/bin/dot
-directories = /lib, /usr/local/etc/pango, /usr/local/etc/fonts
-directories = /usr/share/fonts, /usr/share/X11/fonts, /usr/local/lib/pango
-regularfiles = /etc/ld.so.conf, /etc/ld.so.cache, /etc/passwd, /etc/group
-regularfiles = /usr/local/bin/circo, /usr/local/bin/neato, /usr/local/bin/fdp
-regularfiles = /usr/local/bin/twopi
-.fi
-.RE
-.PP
-In our experience, the cachedir for fontconfig should be changed\**
+Pango,\**
 .FS
-See /usr/local/etc/fonts/fonts.conf relative to the root.
+http://www.pango.org
 .FE
-from:
-.QP
-\%NONE/var/cache/fontconfig
-.LP
-to:
-.QP
-\%/var/cache/fontconfig
-.LP
-or else fontconfig will populate a local cache dir with each render, which is time consuming.
+Fontconfig\**
+.FS
+http://www.fontconfig.org
+.FE
+.IP Jailkits:
+pango, fontconfig, fonts
 .PP
-Next, either /var/cache/fontconfig should be rendered writable to modtex:modtex; or, preferably, graphviz run as root from within the jail to populate the cachedir.
+\(oqdot\(cq should be linked to \(oqdot_static\(cq before installation
+(provided that you built with \(oq--enable-static\(cq).
+.XH 2 sgf2dg
+.IP Prerequisites:
+sgf2dg,\**
+.FS
+http://match.stanford.edu/bump/go.html
+.FE
+LaTeX,\**
+.FS
+TeX Live (http://www.tug.org/texlive) has superseded teTeX (http://www.tug.org/tetex).
+.FE
+Perl\**
+.FS
+http://www.perl.com
+.FE
+.IP Jailkits:
+latex, perl, dvipng, mktexpk
+.PP
+Since Perl is a significant requirement over and above basic LaTeX
+packages, we decided to install sgf2dg in its own root for people
+willing to incur the cost.
 .XH 1 Architecture
 .PP
-In short, an XML-RPC client (e.g., the MediaWiki-client) connects to the mod_python frontend (\(lqTrader Joe\(rq) served by Apache.
+In short, an XML-RPC client (e.g., the MediaWiki-client) connects to the
+mod_python frontend (\(lqTrader Joe\(rq) served by Apache.
 .PP
-Trader Joe, in turn, connects to autonomous, unprivileged, chrooted d\(aemons sitting on arbitrary machines, that actually render the content.
+Trader Joe, in turn, connects to autonomous, unprivileged, chrooted d\(aemons
+sitting on arbitrary machines, that actually render the content.
 .PP
 After authentication,\**
 .FS
-Trader Joe uses basic-, but key-based-auth should be possible using curl's transport-layer.
+Trader Joe uses basic-, but key-based-auth should be possible using curl's
+transport-layer.
 .FE
-but before Trader Joe befrays the rendering drones, he checks an IP->CPU-time database to see whether the client has used up their allotted rendering time.
+but before Trader Joe befrays the rendering drones, he checks an IP->CPU-time
+database to see whether the client has used up their allotted rendering time.
 .ie '\*(.T'ps' \{\
 .PS
 C: ellipse "Client" "(PHP)";

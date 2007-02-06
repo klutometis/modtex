@@ -20,6 +20,7 @@ from modtex.actions.circo import Circo
 from modtex.actions.twopi import Twopi
 from modtex.actions.lilypond import Lilypond
 from modtex.actions.gnuplot import Gnuplot
+from modtex.actions.xymtex import Xymtex
 from modtex.config import *
 from modtex.privileges import Privileges
 from modtex.constants import Constants
@@ -42,7 +43,7 @@ class Main(object):
     ACTIONS = {
         Types.LILYPOND: [Lilypond()],
         Types.GRAPHVIZ: [Dot(), FDP(), Neato(), Circo(), Twopi()],
-        Types.LATEX: [Math(), Chess(), Feyn()],
+        Types.LATEX: [Math(), Chess(), Feyn(), Xymtex()],
         Types.GNUPLOT: [Gnuplot()],
         }
 
