@@ -219,6 +219,14 @@ _
 a. May be included in TeX Live.
 .TE
 .PP
+Edit \(oqtexmf.cnf\(cq within the chroot, modifying the following variables:
+.QP
+shell_escape = f
+.br
+openout_any = p
+.br
+openin_any = p
+.PP
 Don't forget to manually run \(oqtexhash\(cq and \(oqupdmap\(cq from within
 the chroot.
 .XH 2 Gnuplot

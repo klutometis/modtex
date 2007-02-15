@@ -9,6 +9,8 @@ here."
 .XH 1 Exigenda
 .
 .XH 2 Server
+.IP Temp-dir
+tmpwatch and cron
 .IP Parse-trees
 Bring back parse-trees, since Graphviz is not a drop-in replacement.
 .IP Back-end
@@ -75,6 +77,10 @@ General solution: offer optional alternative download (PDF, say) for
 multipage docs, specified as parameter.
 .
 .XH 2 Documentation
+.IP jailkit.ini
+Document jk_init commands.
+.IP Fontconfig
+Fontconfig issue with NONE deposited in each directory.
 .IP Doxygen
 Real doxygen; what to do about docstrings, though? Answer: wait until
 docutils matures into automatic reStructuredText extraction. (Doxygen
@@ -100,6 +106,7 @@ say; postgre; or even sqlite3).
 .IP Paths
 Dynamic jailkit with gno-tools (./configure, etc.); throw in --with-user,
 --with-group, etc.; or: make a build_jailkit target in setup.py.
+.
 .XH 1 Exacta
 .IP "Server-client dichotomy"
 Server is now its own entity: mod_tex; the client, a MediaWiki client,

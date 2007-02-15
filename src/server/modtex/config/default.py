@@ -1,14 +1,16 @@
-##
 # mod_tex: distributed LaTeX-rendering over Apache
 # Copyright (C) 2007 Peter Danenberg
 # See doc/COPYING for details.
-# 
+
+##
 # @file
 # Defines mutable parameters that should be tweaked for the local system
-# (as opposed to \sa constants.py, \sa Constants, which are relatively
+# (as opposed to constanst.py, Constants, which are relatively
 # immutable).
 #
 # Copy to <tt>local.py</tt> before editing.
+#
+# \sa constants.py, \sa Constants
 from signal import SIGTERM, SIGKILL
 from resource import RLIMIT_CORE, RLIMIT_CPU, RLIMIT_FSIZE, RLIMIT_DATA, \
      RLIMIT_STACK, RLIMIT_RSS, RLIMIT_NPROC, RLIMIT_NOFILE, RLIMIT_OFILE, \
