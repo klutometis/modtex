@@ -4,13 +4,13 @@
 
 ##
 # @file
+# @brief Configureth.
+#
 # Defines mutable parameters that should be tweaked for the local system
-# (as opposed to constanst.py, Constants, which are relatively
+# (as opposed to #modtex::constants::Constants, which are relatively
 # immutable).
 #
 # Copy to <tt>local.py</tt> before editing.
-#
-# \sa constants.py, \sa Constants
 from signal import SIGTERM, SIGKILL
 from resource import RLIMIT_CORE, RLIMIT_CPU, RLIMIT_FSIZE, RLIMIT_DATA, \
      RLIMIT_STACK, RLIMIT_RSS, RLIMIT_NPROC, RLIMIT_NOFILE, RLIMIT_OFILE, \
@@ -21,39 +21,43 @@ from modtex.facility import Facility
 from modtex.constants import Constants
 from modtex.types import Types
 
+##
+# @brief Configuration.
+# 
+# Overridable configuration; should be copied to local.py before edition.
 class Config(object):
-    # Where groupeth the sundry radices
+    ## Where groupeth the sundry radices
     root = '/usr/local/var/modtex'
-    # Where rooteth the exposed web dir
+    ## Where rooteth the exposed web dir
     web = '/usr/local/apache2/htdocs/modtex'
-    # Dir to store executable scripts
+    ## Dir to store executable scripts
     scripts = '/usr/local/bin'
-    # Dir to store documentation
+    ## Dir to store documentation
     docs = '/usr/local/share/modtex'
-    # Dir that storeth process-identification
+    ## Dir that storeth process-identification
     run = '/var/run'
-    # Dir that containeth our play-dbs
+    ## Dir that containeth our play-dbs
     db_root = join(root, 'db')
-    # File that databaseth
+    ## File that databaseth
     db = join(db_root, 'modtex')
-    # File that locketh writing
+    ## File that locketh writing
     db_lock = join(db_root, 'modtex.lock')
-    # User that runneth
+    ## User that runneth
     user = 'modtex'
-    # Group that o'er-runneth
+    ## Group that o'er-runneth
     group = 'modtex'
-    # Apache-user
+    ## Apache-user
     http_user = 'nobody'
-    # Apache-group
+    ## Apache-group
     http_group = 'nobody'
-    # Haven where bindeth socket
+    ## Haven where bindeth socket
     default_port = 8000
-    # Guest's correlative where bindeth socket
+    ## Guest's correlative where bindeth socket
     default_host = '127.0.0.1'
-    # When and how to signal runaway children (independent of resource limits)
+    ## When and how to signal runaway children (independent of resource limits)
     default_wait = {45: SIGTERM,
                     50: SIGKILL}
-    # Specifica
+    ## Specifica
     facilities = {
         Types.LATEX:
         Facility(root='latex',
@@ -124,7 +128,7 @@ class Config(object):
                  path='/usr/local/bin/gnuplot',
                  wait=default_wait)
         }
-    # Selectively map public interfaces to private facilities;
+    ## Selectively map public interfaces to private facilities;
     # values specify only host and port, and should therefore
     # be supersets (not strict) of the publicly exposed service.
     publicae = {
@@ -140,9 +144,9 @@ class Config(object):
         Types.TWOPI: facilities[Types.GRAPHVIZ],
         Types.XYMTEX: facilities[Types.LATEX],
         }
-    # Process-ceiling for ForkingMixIn (independent of resource limits)
+    ## Process-ceiling for ForkingMixIn (independent of resource limits)
     max_children = 40
-    # Resource limits (see Constants for defaults).
+    ## Resource limits (see Constants for defaults).
     limits = {
         # Core file (don't produce them)
         RLIMIT_CORE: (0, 0),           
@@ -165,8 +169,8 @@ class Config(object):
         # Total available memory
         RLIMIT_AS: (2**6 * Constants.MiB, 2**6 * Constants.MiB),
         }
-    # Unit of processor time
+    ## Unit of processor time
     ctime_unit = 60.0
-    # Maximum processor time per unit processor time
+    ## Maximum processor time per unit processor time
     # that a client can usurp.
     max_ctime_per_unit = ctime_unit * 0.5

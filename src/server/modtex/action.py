@@ -14,8 +14,18 @@ from modtex.constants import Constants
 from modtex.cleanup import Cleanup
 
 class Action(object):
+    ## Where to find the action templates.
     LIBRARY_PATH = join(dirname(__file__), 'templates')
 
+    ##
+    # Construct.
+    # @param self reference
+    # @param name the action's name as referenced from the outside world,
+    # i.e. XML-RPC handle.
+    # @param method the internal method that responds to outward invocation
+    # @param template_file whence to read the action's template
+    # @param facility command-wrapper including root, args, path, etc. from
+    # #modtex::config::default::Config
     def __init__(self, name, method, template_file, facility):
         super(Action, self).__init__(self, name, method, template_file, facility)
         self.name = name
@@ -34,10 +44,11 @@ class Action(object):
     #
     # Populates the template file before calling executanda.
     # 
-    # @param substituenda a dictionary of substitutions to make
-    # in the template
-    # @param targets a dictionary of mime-types and apposite files
-    # @param executanda commands to perform
+    # @param substituenda A dictionary of substitutions to make
+    # in the template.
+    # @param targets A dictionary of mime-types and apposite files.
+    # @param self Reference.
+    # @param executanda Commands to perform.
     def render(self, substituenda, targets, executanda):
         substitutum = self.template % substituenda
         cleanup = self.populate_tmpdir(substitutum)
@@ -55,9 +66,10 @@ class Action(object):
     # 
     # Create the temp directory; chdir thither; and register the
     # directory to be cleaned up, unless __debug__ is active (i.e.,
-    # Python was started without -O.
+    # Python was started without -O).
     # 
-    # @param substatutum The template with substitutions pre-rendered
+    # @param substatutum The template with substitutions pre-rendered.
+    # @param self Reference.
     # @return Reference to the cleanup mechanism that should
     # persist as long as needed.
     def populate_tmpdir(self, substatutum):

@@ -14,3 +14,11 @@ start-debug: build
 
 stop: build
 	sudo bash -c "${COM} stop"
+
+restart:
+	sudo apachectl stop;\
+	sudo modtex stop;\
+	cd ..;\
+	sudo python setup.py install;\
+	sudo modtex start;\
+	sudo apachectl start
