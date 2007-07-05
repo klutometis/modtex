@@ -126,7 +126,22 @@ class Config(object):
                  host=default_host,
                  port=default_port + 3,
                  path='/usr/local/bin/gnuplot',
-                 wait=default_wait)
+                 wait=default_wait),
+
+        Types.SGF2DG:
+        Facility(root='go',
+                 host=default_host,
+                 port=default_port + 4,
+                 path='/usr/bin/sgf2dg',
+                 wait=default_wait,
+                 args=['-twoColumn'],
+                 verbose='-verbose'),
+
+        Types.TEX:
+        Facility(path='/usr/local/teTeX/bin/i686-pc-linux-gnu/tex',
+                 args=['-interaction=nonstopmode', '-no-shell-escape',
+                       '-file-line-error', '-halt-on-error'],
+                 wait=default_wait),
         }
     ## Selectively map public interfaces to private facilities;
     # values specify only host and port, and should therefore
@@ -143,6 +158,7 @@ class Config(object):
         Types.NEATO: facilities[Types.GRAPHVIZ],
         Types.TWOPI: facilities[Types.GRAPHVIZ],
         Types.XYMTEX: facilities[Types.LATEX],
+        Types.SGF2DG: facilities[Types.SGF2DG],
         }
     ## Process-ceiling for ForkingMixIn (independent of resource limits)
     max_children = 40
