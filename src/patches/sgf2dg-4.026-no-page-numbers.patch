@@ -1,0 +1,30 @@
+diff -ru sgf2dg-4.026-orig/Dg2TeX.pm sgf2dg-4.026/Dg2TeX.pm
+--- sgf2dg-4.026-orig/Dg2TeX.pm	2005-06-03 16:05:57.000000000 -0500
++++ sgf2dg-4.026/Dg2TeX.pm	2007-07-05 03:50:53.000000000 -0500
+@@ -90,20 +90,23 @@
+ \\newdimen\\diagdim
+ \\newdimen\\fulldim
+ \\newbox\\diagbox
+-\\newbox\\captionbox\n";
++\\newbox\\captionbox
++\\nopagenumbers\n";
+ 
+ use constant SIMPLE_MACROS =>
+ "\\magnification=1200
+ \\input gooemacs
+ \\raggedbottom
+-\\parindent=0pt\n";
++\\parindent=0pt
++\\nopagenumbers\n";
+ 
+ use constant TWO_COLUMN_MACROS =>
+ "\\magnification=1200
+ \\input gotcmacs
+ \\raggedbottom
+ \\tolerance=10000
+-\\parindent=0pt\n";
++\\parindent=0pt
++\\nopagenumbers\n";
+ 
+ our %options = (
+     boardSize       => 19,

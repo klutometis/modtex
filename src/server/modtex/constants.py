@@ -22,7 +22,7 @@ class Constants(object):
     # Temp-dir to relative root
     TEMP = 'tmp'
     # Prograpso-glossia
-    ENCODINGS = ['utf-8', 'ascii', 'latin-1']
+    ENCODINGS = ['utf-8', 'ascii', 'latin-1', 'string_escape']
     # Lock-file template
     LOCKFILE = '%(application)s.pid'
     # Mapping of internal type to mime-type, extension
@@ -31,10 +31,12 @@ class Constants(object):
         Types.GNUPLOT: Mime('text/x-gnuplot', 'gp'),
         Types.GRAPHVIZ: Mime('text/x-graphviz', 'dot'),
         Types.LATEX: Mime('text/x-latex', 'tex'),
+        Types.TEX: Mime('text/x-tex', 'tex'),
         Types.LILYPOND: Mime('text/x-lilypond', 'ly'),
         Types.METAPOST: Mime('text/x-metapost', 'mp'),
         Types.MIDI: Mime('audio/midi', 'midi'),
         Types.PNG: Mime('image/png', 'png'),
+        Types.SGF2DG: Mime('text/x-go-sgf', 'sgf'),
         }
     # Template-file-template
     TEMPLATE = '%(file)s.%(suffix)s'

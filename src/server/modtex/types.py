@@ -21,3 +21,6 @@ class Types(object):
     METAPOST = 'metapost'
     FEYN = 'feyn'
     XYMTEX = 'xymtex'
+    SGF2DG = 'go'
+    TEX = 'tex'
+

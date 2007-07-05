@@ -20,6 +20,7 @@ from modtex.actions.twopi import Twopi
 from modtex.actions.lilypond import Lilypond
 from modtex.actions.gnuplot import Gnuplot
 from modtex.actions.xymtex import Xymtex
+from modtex.actions.sgf2dg import SGF2DG
 from modtex.config import *
 from modtex.privileges import Privileges
 from modtex.constants import Constants
@@ -44,6 +45,7 @@ class Main(object):
         Types.GRAPHVIZ: [Dot(), FDP(), Neato(), Circo(), Twopi()],
         Types.LATEX: [Math(), Chess(), Feyn(), Xymtex()],
         Types.GNUPLOT: [Gnuplot()],
+        Types.SGF2DG: [SGF2DG()],
         }
 
     def start(self):

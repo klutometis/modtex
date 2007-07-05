@@ -134,6 +134,7 @@ class install_root(Command):
         Config.facilities[Types.GRAPHVIZ].root,
         Config.facilities[Types.LILYPOND].root,
         Config.facilities[Types.GNUPLOT].root,
+        Config.facilities[Types.SGF2DG].root,
         ]
 
     def initialize_options(self):
