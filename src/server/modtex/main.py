@@ -21,6 +21,7 @@ from modtex.actions.lilypond import Lilypond
 from modtex.actions.gnuplot import Gnuplot
 from modtex.actions.xymtex import Xymtex
 from modtex.actions.sgf2dg import SGF2DG
+from modtex.actions.tengwar import Tengwar
 from modtex.config import *
 from modtex.privileges import Privileges
 from modtex.constants import Constants
@@ -43,7 +44,7 @@ class Main(object):
     ACTIONS = {
         Types.LILYPOND: [Lilypond()],
         Types.GRAPHVIZ: [Dot(), FDP(), Neato(), Circo(), Twopi()],
-        Types.LATEX: [Math(), Chess(), Feyn(), Xymtex()],
+        Types.LATEX: [Math(), Chess(), Feyn(), Xymtex(), Tengwar()],
         Types.GNUPLOT: [Gnuplot()],
         Types.SGF2DG: [SGF2DG()],
         }

@@ -23,4 +23,4 @@ class Types(object):
     XYMTEX = 'xymtex'
     SGF2DG = 'go'
     TEX = 'tex'
-
+    TENGWAR = 'teng'
