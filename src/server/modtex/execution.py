@@ -13,7 +13,7 @@ from os import EX_SOFTWARE, kill, WIFEXITED, WIFSIGNALED, WIFSTOPPED, \
      WTERMSIG, WSTOPSIG, WEXITSTATUS, EX_OK
 from syslog import syslog
 from popen2 import Popen4
-from threading import Timer
+from threading import Timer, Thread
 from os.path import basename
 from signal import SIGKILL
 
@@ -79,6 +79,7 @@ class Execution(object):
                   self.facility.wait.iteritems()]
         for timer in timers:
             timer.start()
+        Thread(target=lambda: process.fromchild.readlines()).start()
         status = process.wait()
         for timer in timers:
             # No penalty, btw, for cancelling a dead timer
@@ -90,13 +91,13 @@ class Execution(object):
         process.tochild.close()
         # Inefficient; by design? Should normally be run
         # !__debug__, anyway.
-        if __debug__:
-            while True:
-                line = process.fromchild.readline()
-                if line:
-                    syslog(line)
-                else:
-                    break
+#         if __debug__:
+#             while True:
+#                 line = process.fromchild.readline()
+#                 if line:
+#                     syslog(line)
+#                 else:
+#                     break
         process.fromchild.close()
         command = basename(self.facility.path)
         if WIFEXITED(status):

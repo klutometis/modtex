@@ -20,5 +20,6 @@ restart:
 	sudo modtex stop;\
 	cd ..;\
 	sudo python setup.py install;\
-	sudo modtex start;\
-	sudo apachectl start
+	sudo modtex-debug start;\
+	sudo apachectl start;\
+	sudo tail -f /usr/local/apache2/logs/error_log
