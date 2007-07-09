@@ -19,6 +19,8 @@ restart:
 	sudo apachectl stop;\
 	sudo modtex stop;\
 	cd ..;\
+	python setup.py clean;\
+	python setup.py build;\
 	sudo python setup.py install;\
 	sudo modtex-debug start;\
 	sudo apachectl start;\

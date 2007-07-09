@@ -12,7 +12,7 @@ from __future__ import with_statement
 from os import EX_SOFTWARE, kill, WIFEXITED, WIFSIGNALED, WIFSTOPPED, \
      WTERMSIG, WSTOPSIG, WEXITSTATUS, EX_OK
 from syslog import syslog
-from popen2 import Popen4
+from subprocess import Popen, PIPE, STDOUT
 from threading import Timer, Thread
 from os.path import basename
 from signal import SIGKILL
@@ -74,49 +74,24 @@ class Execution(object):
         if __debug__ and not self.facility.verbose is None:
             argumenta.append(self.facility.verbose)
         argumenta.extend(self.args)
-        process = Popen4(argumenta)
+        process = Popen(argumenta, stdin=PIPE, stdout=PIPE, stderr=STDOUT, close_fds=True)
         timers = [Timer(time, self.kill, [process.pid, signal]) for time, signal in
                   self.facility.wait.iteritems()]
         for timer in timers:
             timer.start()
-        Thread(target=lambda: process.fromchild.readlines()).start()
-        status = process.wait()
+        if not self.stdin is None:
+            with open(self.stdin) as stdin:
+                (stdout, stderr) = process.communicate(stdin.read())
+        else:
+            (stdout, stderr) = process.communicate(None)
+        if __debug__:
+            for line in stdout.splitlines():
+                syslog(line)
+        status = process.returncode
         for timer in timers:
             # No penalty, btw, for cancelling a dead timer
             if timer.isAlive():
                 timer.cancel()
-        if not self.stdin is None:
-            with open(self.stdin) as stdin:
-                process.tochild.write(stdin.read())
-        process.tochild.close()
-        # Inefficient; by design? Should normally be run
-        # !__debug__, anyway.
-#         if __debug__:
-#             while True:
-#                 line = process.fromchild.readline()
-#                 if line:
-#                     syslog(line)
-#                 else:
-#                     break
-        process.fromchild.close()
         command = basename(self.facility.path)
-        if WIFEXITED(status):
-            exit_status = WEXITSTATUS(status)
-            if exit_status != EX_OK:
-                raise ExecutionError(EX_SOFTWARE, '`%(command)s\' exited with \
-                error-code %(exit_status)d' % {'command': command,
-                                               'exit_status': exit_status})
-        elif WIFSIGNALED(status):
-            raise ExecutionError(EX_SOFTWARE, '`%(command)s\' terminated \
-            with signal %(signal)d' % {'command': command,
-                                       'signal': WTERMSIG(status)})
-        elif WIFSTOPPED(status):
-            raise ExecutionError(EX_SOFTWARE, '`%(command)s\' stopped with \
-            signal %(signal)d' % {'command': command,
-                                  'signal': WSTOPSIG(status)})
-        else:
-            # Failsafe: timers should have killed the process by this point, or
-            # it should have ended naturally.
-            kill(process.pid, SIGKILL)
-            raise ExecutionError(EX_SOFTWARE, 'Failed timer on `%(command)s\'; \
-            terminating the process extraordinarily.' % {'command': command})
+        if (WEXITSTATUS(status) != EX_OK or WIFSIGNALED(status) or WIFSTOPPED(status)):
+            raise ExecutionError(EX_SOFTWARE, stdout)
