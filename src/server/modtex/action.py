@@ -52,8 +52,7 @@ class Action(object):
     def render(self, substituenda, targets, executanda):
         substitutum = self.template % substituenda
         cleanup = self.populate_tmpdir(substitutum)
-        for executandum in executanda:
-            executandum.execute()
+        [executandum.execute() for executandum in executanda]
         response = {}
         for mime, filename in targets.iteritems():
             if exists(filename):

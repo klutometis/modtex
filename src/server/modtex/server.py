@@ -72,8 +72,7 @@ class ModtexServer(ModtexForkingMixIn, SimpleXMLRPCServer):
         # Detach from the parent
         self.daemonize(Constants.APPLICATION % {'action': facility.root})
         # Store encodings in cache before chroot
-        for encoding in Constants.ENCODINGS:
-            lookup(encoding)
+        [lookup(encoding) for encoding in Constants.ENCODINGS]
         # Changing root does not automatically change dir.
         root = join(Config.root, facility.root)
         chdir(root)

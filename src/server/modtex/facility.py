@@ -22,5 +22,4 @@ class Facility(object):
         self.wait = wait
         self.args = args
         self.verbose = verbose
-        for key, value in kwargs.iteritems():
-            self.__setattr__(key, value)
+        [self.__setattr__(key, value) for key, value in kwargs.iteritems()]

@@ -85,8 +85,8 @@ class install_scripts(Command):
     def run(self):
         SCRIPT_DIR = './bin'
         SCRIPTS = ['modtex', 'modtex-debug']
-        for scriptfilename in [join(SCRIPT_DIR, script) for script in SCRIPTS]:
-            declare_copy(scriptfilename, self.script_dir)
+        [declare_copy(scriptfilename, self.script_dir) for scriptfilename in
+         [join(SCRIPT_DIR, script) for script in SCRIPTS]]
 
 class install_handler(Command):
 

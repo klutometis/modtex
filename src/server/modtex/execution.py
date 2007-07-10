@@ -77,21 +77,16 @@ class Execution(object):
         process = Popen(argumenta, stdin=PIPE, stdout=PIPE, stderr=STDOUT, close_fds=True)
         timers = [Timer(time, self.kill, [process.pid, signal]) for time, signal in
                   self.facility.wait.iteritems()]
-        for timer in timers:
-            timer.start()
+        [timer.start() for timer in timers]
         if not self.stdin is None:
             with open(self.stdin) as stdin:
                 (stdout, stderr) = process.communicate(stdin.read())
         else:
             (stdout, stderr) = process.communicate(None)
         if __debug__:
-            for line in stdout.splitlines():
-                syslog(line)
+            [syslog(line) for line in stdout.splitlines()]
         status = process.returncode
-        for timer in timers:
-            # No penalty, btw, for cancelling a dead timer
-            if timer.isAlive():
-                timer.cancel()
+        [timer.cancel() for timer in timers if timer.isAlive()]
         command = basename(self.facility.path)
         if (WEXITSTATUS(status) != EX_OK or WIFSIGNALED(status) or WIFSTOPPED(status)):
             raise ExecutionError(EX_SOFTWARE, stdout)
