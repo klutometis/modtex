@@ -63,7 +63,7 @@ class Config(object):
         Facility(root='latex',
                  host=default_host,
                  port=default_port + 0,
-                 path='/usr/local/bin/latex',
+                 path='/usr/local/teTeX/bin/i686-pc-linux-gnu/latex',
                  wait=default_wait,
                  args=['-interaction=nonstopmode', '-no-shell-escape',
                        '-file-line-error', '-halt-on-error']),
@@ -76,7 +76,7 @@ class Config(object):
                  verbose='-v'),
 
         Types.METAPOST:
-        Facility(path='/usr/bin/mpost',
+        Facility(path='/usr/local/teTeX/bin/i686-pc-linux-gnu/mpost',
                  args=['-file-line-error', '-halt-on-error',
                       '-interaction=nonstopmode'],
                  wait=default_wait),
@@ -86,7 +86,7 @@ class Config(object):
                  host=default_host,
                  port=default_port + 1,
                  wait=default_wait,
-                 args=['-Tpng'],
+                 args=['-Tpng:cairo'],
                  verbose='-v'),
 
         Types.DOT:
@@ -110,7 +110,7 @@ class Config(object):
                  port=default_port + 2,
                  path='/usr/local/bin/lilypond',
                  wait=default_wait,
-                 args=['-s', '-b', 'eps', '-f', 'ps'],
+                 args=['-dsafe', '-dbackend=eps', '-f', 'ps'],
                  verbose='-V',
                  version='2.10'),
 
