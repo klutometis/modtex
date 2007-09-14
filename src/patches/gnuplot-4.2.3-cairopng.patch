@@ -1,12 +1,11 @@
-diff -ru gnuplot-orig/term/cairo.trm gnuplot/term/cairo.trm                                                                                                                                                         
---- gnuplot-orig/term/cairo.trm 2007-09-13 23:12:53.000000000 -0700                                                                                                                                                 
-+++ gnuplot/term/cairo.trm      2007-09-13 23:15:01.000000000 -0700                                                                                                                                                 
-@@ -374,6 +374,7 @@                                                                                                                                                                                                 
-                                                                                                                                                                                                                    
-        /* finish the page - cairo_destroy still has to be called for the whole documentation                                                                                                                       
-         * to be written */                                                                                                                                                                                         
-+        cairo_surface_write_to_png(cairo_get_target(plot.cr), outstr);                                                                                                                                             
-        cairo_show_page(plot.cr);                                                                                                                                                                                   
-                                                                                                                                                                                                                    
-        FPRINTF((stderr,"status =                                                                                                                                                                                   
-        %s\n",cairo_status_to_string(cairo_status(plot.cr))));                                                                                                                                                      
+diff -ru gnuplot-orig/term/cairo.trm gnuplot/term/cairo.trm
+--- gnuplot-orig/term/cairo.trm 2007-09-13 23:12:53.000000000 -0700
++++ gnuplot/term/cairo.trm      2007-09-13 23:15:01.000000000 -0700
+@@ -374,6 +374,7 @@
+ 
+        /* finish the page - cairo_destroy still has to be called for the whole documentation
+         * to be written */
++        cairo_surface_write_to_png(cairo_get_target(plot.cr), outstr);
+        cairo_show_page(plot.cr);
+ 
+        FPRINTF((stderr,"status = %s\n",cairo_status_to_string(cairo_status(plot.cr))));
