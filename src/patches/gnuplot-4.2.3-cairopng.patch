@@ -1,11 +1,47 @@
 diff -ru gnuplot-orig/term/cairo.trm gnuplot/term/cairo.trm
 --- gnuplot-orig/term/cairo.trm 2007-09-13 23:12:53.000000000 -0700
-+++ gnuplot/term/cairo.trm      2007-09-13 23:15:01.000000000 -0700
-@@ -374,6 +374,7 @@
++++ gnuplot/term/cairo.trm      2007-09-14 14:00:28.000000000 -0700
+@@ -95,6 +95,7 @@
+ float cairopdf_lw = 1.0;
+ float cairopdf_dl = 1.0;
+ 
++int pngn = 0;
+ 
+ plot_struct plot;
+ 
+@@ -374,6 +375,7 @@
  
         /* finish the page - cairo_destroy still has to be called for the whole documentation
          * to be written */
-+        cairo_surface_write_to_png(cairo_get_target(plot.cr), outstr);
++        cairopdf_writepng();
         cairo_show_page(plot.cr);
  
         FPRINTF((stderr,"status = %s\n",cairo_status_to_string(cairo_status(plot.cr))));
+@@ -381,6 +383,27 @@
+        FPRINTF((stderr,"Text finished\n"));
+ }
+ 
++void cairopdf_writepng() {
++        const char *PNG = ".png";
++        const size_t PNG_OUTSTR_LEN = strlen(outstr) /* filename */
++          + 1                                        /* index */
++          + strlen(PNG)                              /* suffix */
++          + 1;                                       /* null */
++        const int MAX_PNGN = 10;                     /* one digit indices */
++        char *png_outstr = (char *) calloc(PNG_OUTSTR_LEN, sizeof(char));
++        if (png_outstr != NULL) {
++          snprintf(png_outstr, PNG_OUTSTR_LEN, "%s%d%s", outstr, pngn, PNG);
++          png_outstr[PNG_OUTSTR_LEN - 1] = '\0';
++          cairo_surface_write_to_png(cairo_get_target(plot.cr), png_outstr);
++          free(png_outstr);
++
++          pngn += 1;
++          pngn %= MAX_PNGN;
++
++          FPRINTF((stderr, "wrote .png: %s", png_outstr));
++        }
++}
++
+ /* sent when gnuplot exits and when the terminal or the output change.*/
+ void cairopdf_reset()
+ {
