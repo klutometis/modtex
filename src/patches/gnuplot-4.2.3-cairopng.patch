@@ -1,49 +1,23 @@
 --- gnuplot-orig/term/cairo.trm	2007-09-13 23:12:53.000000000 -0700
-+++ gnuplot/term/cairo.trm	2007-09-14 14:14:34.000000000 -0700
-@@ -95,6 +95,7 @@
- float cairopdf_lw = 1.0;
- float cairopdf_dl = 1.0;
++++ gnuplot/term/cairo.trm	2007-09-15 17:29:59.000000000 -0700
+@@ -315,9 +315,9 @@
+ 	if ( plot.cr )
+ 		cairo_destroy(plot.cr);
  
-+int pngn = 0;
+-	surface = cairo_pdf_surface_create   (outstr /* output file name */,
+-                                             plot.device_xmax /*double width_in_points*/,
+-                                             plot.device_ymax /*double height_in_points*/);
++	surface = cairo_image_surface_create  (CAIRO_FORMAT_ARGB32,
++                                              plot.device_xmax /*double width_in_points*/,
++                                              plot.device_ymax /*double height_in_points*/);
+ 	plot.cr = cairo_create(surface);
+ 	cairo_surface_destroy( surface );
  
- plot_struct plot;
- 
-@@ -374,6 +375,7 @@
- 
- 	/* finish the page - cairo_destroy still has to be called for the whole documentation
- 	 * to be written */
-+        cairopdf_writepng();
- 	cairo_show_page(plot.cr);
- 
- 	FPRINTF((stderr,"status = %s\n",cairo_status_to_string(cairo_status(plot.cr))));
-@@ -381,6 +383,30 @@
- 	FPRINTF((stderr,"Text finished\n"));
- }
- 
-+void cairopdf_writepng() {
-+        const char *INFIX = "-";
-+        const char *SUFFIX = ".png";
-+        const size_t PNG_OUTSTR_LEN = strlen(outstr) /* filename */
-+          + strlen(INFIX)
-+          + strlen(SUFFIX)
-+          + 1                    /* index */
-+          + 1;                   /* null */
-+        const int MAX_PNGN = 10; /* one digit indices */
-+        char *png_outstr = (char *) calloc(PNG_OUTSTR_LEN, sizeof(char));
-+        if (png_outstr != NULL) {
-+          snprintf(png_outstr, PNG_OUTSTR_LEN, "%s%s%d%s", outstr, INFIX,
-+                   pngn, SUFFIX);
-+          png_outstr[PNG_OUTSTR_LEN - 1] = '\0';
-+          cairo_surface_write_to_png(cairo_get_target(plot.cr), png_outstr);
-+
-+          FPRINTF((stderr, "wrote PNG: %s", png_outstr));
-+          free(png_outstr);
-+
-+          pngn += 1;
-+          pngn %= MAX_PNGN;
-+        }
-+}
-+
- /* sent when gnuplot exits and when the terminal or the output change.*/
+@@ -385,6 +385,7 @@
  void cairopdf_reset()
  {
+ 	/* finish the document */
++        cairo_surface_write_to_png(cairo_get_target(plot.cr), outstr);
+ 	cairo_destroy(plot.cr);
+ 
+ 	FPRINTF((stderr,"cairopdf_reset\n"));
