@@ -1,0 +1,216 @@
+--- gnuplot-orig/term/cairo.trm	2008-01-16 13:27:31.000000000 -0800
++++ gnuplot/term/cairo.trm	2008-01-16 15:18:54.000000000 -0800
+@@ -1,4 +1,4 @@
+-/*
++/* -*-C-*-
+  * $Id: cairo.trm,v 1.15 2007/12/31 17:51:27 sfeam Exp $
+  */
+ 
+@@ -37,6 +37,7 @@
+ /*
+  * Modifications:
+  *	Peter Danenberg, Ethan Merritt	- handle png output as well as pdf
++ *	Peter Danenberg - crop for PNGs
+  */
+ 
+ #ifdef TERM_REGISTER
+@@ -72,6 +73,37 @@
+ 
+ #ifdef TERM_BODY
+ 
++#if   HAVE_STDINT_H
++# include <stdint.h>
++#elif HAVE_INTTYPES_H
++# include <inttypes.h>
++#elif HAVE_SYS_INT_TYPES_H
++# include <sys/int_types.h>
++#elif defined(_MSC_VER)
++typedef __int8 int8_t;
++typedef unsigned __int8 uint8_t;
++typedef __int16 int16_t;
++typedef unsigned __int16 uint16_t;
++typedef __int32 int32_t;
++typedef unsigned __int32 uint32_t;
++typedef __int64 int64_t;
++typedef unsigned __int64 uint64_t;
++# ifndef HAVE_UINT64_T
++#  define HAVE_UINT64_T 1
++# endif
++# ifndef INT16_MIN
++#  define INT16_MIN     (-32767-1)
++# endif
++# ifndef INT16_MAX
++#  define INT16_MAX     (32767)
++# endif
++# ifndef UINT16_MAX
++#  define UINT16_MAX    (65535)
++# endif
++#else
++#error Cannot find definitions for fixed-width integral types (uint8_t, uint32_t, etc.)
++#endif
++
+ #include "cairo-pdf.h"
+ #include "wxterminal/gp_cairo.h"
+ /* for enhanced text mode */
+@@ -85,6 +117,7 @@
+ TBOOLEAN cairotrm_mono = FALSE;
+ TBOOLEAN cairotrm_rounded = FALSE;
+ TBOOLEAN cairotrm_transparent = FALSE;
++TBOOLEAN cairotrm_crop = FALSE;
+ /* default text font family: */
+ char cairotrm_set_fontname[MAX_ID_LEN + 1] = "";
+ /* default text size*/
+@@ -127,6 +160,7 @@
+     CAIROTRM_COLOR,
+     CAIROTRM_DASHLENGTH,
+     CAIROTRM_TRANSPARENT,
++    CAIROTRM_CROP,
+     CAIROTRM_OTHER
+ };
+ 
+@@ -147,6 +181,7 @@
+     {"dl", CAIROTRM_DASHLENGTH},
+     {"dashl$ength", CAIROTRM_DASHLENGTH},
+     {"transp$arent", CAIROTRM_TRANSPARENT},
++    {"crop", CAIROTRM_CROP},
+     {NULL, CAIROTRM_OTHER}
+ };
+ 
+@@ -167,6 +202,7 @@
+ 	cairotrm_dashed = FALSE;	/* Dashed lines? (default is solid) */
+ 	cairotrm_mono = FALSE;  	/* Mono? (default is color) */
+ 	cairotrm_transparent = FALSE;
++	cairotrm_crop = FALSE;
+ 
+ 	/* Initialize terminal-dependent values */
+ 	if (!strcmp(term->name,"pngcairo")) {
+@@ -270,6 +306,11 @@
+ 			if (!strcmp(term->name,"pngcairo"))
+ 			    cairotrm_transparent = TRUE;
+ 			break;
++		case CAIROTRM_CROP:
++			c_token++;
++			if (!strcmp(term->name,"pngcairo"))
++			    cairotrm_crop = TRUE;
++			break;
+ 		case CAIROTRM_OTHER:
+ 			/* Ignore irrelevant keywords used by other png/pdf drivers */
+ 			if (almost_equals(c_token,"true$color")
+@@ -301,6 +342,10 @@
+ 
+ 
+ 	/* Save options back into options string in normalized format */
++	if (cairotrm_crop)
++		snprintf(term_options, sizeof(term_options)-strlen(term_options),
++			" crop");
++
+ 	if (cairotrm_transparent)
+ 		snprintf(term_options, sizeof(term_options)-strlen(term_options),
+ 			" transparent");
+@@ -457,6 +502,88 @@
+ 	return CAIRO_STATUS_SUCCESS;
+ }
+ 
++int max(int a, int b) {
++  return a > b ? a : b;
++}
++
++int min(int a, int b) {
++  return a < b ? a : b;
++}
++
++cairo_surface_t
++*cairopng_do_crop()
++{
++  cairo_surface_t *surface = cairo_get_target(plot.cr);
++  /* return unadulterated surface if we're not cropping */
++  if (!cairotrm_crop)
++    return surface;
++  unsigned char *data = cairo_image_surface_get_data(surface);
++  int width = cairo_image_surface_get_width(surface),
++    height = cairo_image_surface_get_height(surface),
++    stride = cairo_image_surface_get_stride(surface),
++    i, j, x1 = 0, y1 = 0, x2 = width, y2 = height;
++  uint32_t *row;
++  const uint32_t BG = 0xffffffff;
++  /* Row-wise, top-down iteration */
++  for (i = 0; i < height; i++) {
++    row = (uint32_t *) (data + i * stride);
++    for (j = 0; j < width; j++) {
++      if (row[j] != BG) {
++        y1 = i;
++        goto found_y1;
++      }
++    }
++  }
++ found_y1:
++  /* Row-wise, bottom-up iteration */
++  for (i = height - 1; i >= y1; i--) {
++    row = (uint32_t *)(data + i * stride);
++    for (j = 0; j < width; j++) {
++      if (row[j] != BG) {
++        y2 = i;
++        goto found_y2;
++      }
++    }
++  }
++ found_y2:
++  /* Column-wise, left-to-right iteration */
++  for (j = 0; j < width; j++) {
++    for (i = 0; i < height; i++) {
++      row = (uint32_t *) (data + i * stride);
++      if (row[j] != BG) {
++        x1 = j;
++        goto found_x1;
++      }
++    }
++  }
++ found_x1:
++  /* Column-wise, right-to-left iteration */
++  for (j = width - 1; j >= x1; j--) {
++    for (i = 0; i < height; i++) {
++      row = (uint32_t *) (data + i * stride);
++      if (row[j] != BG) {
++        x2 = j;
++        goto found_x2;
++      }
++    }
++  }
++ found_x2:;
++  const int padding = 10;
++  int clip_width = min(x2 - x1 + padding, width);
++  int clip_height = min(y2 - y1 + padding, height);
++  cairo_surface_t *clip = cairo_image_surface_create
++    (CAIRO_FORMAT_ARGB32, clip_width, clip_height);
++  cairo_t *clip_cr = cairo_create(clip);
++  cairo_set_source_surface(clip_cr,
++                           cairo_get_target(plot.cr),
++                           -max(x1 - padding / 2, 0),
++                           -max(y1 - padding / 2, 0));
++  cairo_rectangle(clip_cr, 0, 0, clip_width, clip_height);
++  cairo_fill(clip_cr);
++  /* cairo_surface_write_to_png_stream */
++  /*   (clip, (cairo_write_func_t)cairopng_write, error_data); */
++  return clip;
++}
+ 
+ void cairotrm_text()
+ {
+@@ -474,7 +601,7 @@
+ 	cairo_show_page(plot.cr);
+ 	if (!strcmp(term->name,"pngcairo")) {
+ 		int error_data[1];
+-		cairo_surface_write_to_png_stream(cairo_get_target(plot.cr),
++                cairo_surface_write_to_png_stream(cairopng_do_crop(),
+ 			(cairo_write_func_t)cairopng_write, error_data);
+ 	}
+ 
+@@ -865,7 +992,7 @@
+ " Syntax:",
+ "         set term pngcairo",
+ "                      {{no}enhanced} {mono|color} {solid|dashed}",
+-"                      {transparent} {font <font>}",
++"                      {transparent} {crop} {font <font>}",
+ "                      {linewidth <lw>} {rounded|butt} {dashlength <dl>}",
+ "                      {size <XX>{unit},<YY>{unit}}",
+ "",
