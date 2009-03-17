@@ -9,6 +9,10 @@ here."
 .XH 1 Exigenda
 .
 .XH 2 Server
+.IP Gnuplot
+Parameters: size=\(lq{small,medium,large}\(rq
+.IP
+plot.gp and plot-cairo.gp, depending on backend
 .IP Temp-dir
 tmpwatch and cron
 .IP Parse-trees

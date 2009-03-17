@@ -24,3 +24,4 @@ class Types(object):
     SGF2DG = 'go'
     TEX = 'tex'
     TENGWAR = 'teng'
+    GREEK = 'greek'

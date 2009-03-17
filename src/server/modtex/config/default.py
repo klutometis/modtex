@@ -160,6 +160,7 @@ class Config(object):
         Types.XYMTEX: facilities[Types.LATEX],
         Types.SGF2DG: facilities[Types.SGF2DG],
         Types.TENGWAR: facilities[Types.LATEX],
+        Types.GREEK: facilities[Types.LATEX],
         }
     ## Process-ceiling for ForkingMixIn (independent of resource limits)
     max_children = 40
