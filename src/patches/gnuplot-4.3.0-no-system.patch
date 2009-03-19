@@ -1,0 +1,157 @@
+diff -Naur gnuplot-orig/src/command.c gnuplot/src/command.c
+--- gnuplot-orig/src/command.c	2009-03-18 20:02:39.000000000 -0400
++++ gnuplot/src/command.c	2009-03-18 20:11:51.000000000 -0400
+@@ -2102,31 +2102,12 @@
+ {
+     screen_ok = FALSE;
+     c_token++;
+-
+-    if ((vaxc$errno = lib$spawn()) != SS$_NORMAL) {
+-	os_error(NO_CARET, "spawn error");
+-    }
+ }
+ 
+ 
+ static void
+ do_system(const char *cmd)
+ {
+-
+-     if (!cmd)
+-	return;
+-
+-    /* gp_input_line is filled by read_line or load_file, but
+-     * line_desc length is set only by read_line; adjust now
+-     */
+-    line_desc.dsc$w_length = strlen(cmd);
+-    line_desc.dsc$a_pointer = (char *) cmd;
+-
+-    if ((vaxc$errno = lib$spawn(&line_desc)) != SS$_NORMAL)
+-	os_error(NO_CARET, "spawn error");
+-
+-    (void) putc('\n', stderr);
+-
+ }
+ #endif /* VMS */
+ 
+@@ -2340,27 +2321,6 @@
+ static void
+ do_system(const char *cmd)
+ {
+-# ifdef AMIGA_AC_5
+-    static char *parms[80];
+-    if (!cmd)
+-	return;
+-    getparms(input_line + 1, parms);
+-    fexecv(parms[0], parms);
+-# elif defined(_Windows) && defined(USE_OWN_WINSYSTEM_FUNCTION)
+-    if (!cmd)
+-	return;
+-    winsystem(cmd);
+-# else /* !(AMIGA_AC_5 || _Windows) */
+-/* (am, 19980929)
+- * OS/2 related note: cmd.exe returns 255 if called w/o argument.
+- * i.e. calling a shell by "!" will always end with an error message.
+- * A workaround has to include checking for EMX,OS/2, two environment
+- *  variables,...
+- */
+-    if (!cmd)
+-	return;
+-    system(cmd);
+-# endif /* !(AMIGA_AC_5 || _Windows) */
+ }
+ 
+ 
+@@ -2910,92 +2870,5 @@
+ int
+ do_system_func(const char *cmd, char **output)
+ {
+-
+-#if defined(VMS) || defined(PIPES)
+-    int c;
+-    FILE *f;
+-    size_t cmd_len;
+-    int result_allocated, result_pos;
+-    char* result;
+-    int ierr = 0;
+-# ifdef AMIGA_AC_5
+-    int fd;
+-# elif defined(VMS)
+-    int chan, one = 1;
+-    struct dsc$descriptor_s pgmdsc = {0, DSC$K_DTYPE_T, DSC$K_CLASS_S, 0};
+-    static $DESCRIPTOR(lognamedsc, "PLOT$MAILBOX");
+-# endif /* VMS */
+-
+-    cmd_len = strlen(cmd);
+-
+-    /* open stream */
+-# ifdef VMS
+-    pgmdsc.dsc$a_pointer = cmd;
+-    pgmdsc.dsc$w_length = cmd_len;
+-    if (!((vaxc$errno = sys$crembx(0, &chan, 0, 0, 0, 0, &lognamedsc)) & 1))
+-	os_error(NO_CARET, "sys$crembx failed");
+-
+-    if (!((vaxc$errno = lib$spawn(&pgmdsc, 0, &lognamedsc, &one)) & 1))
+-	os_error(NO_CARET, "lib$spawn failed");
+-
+-    if ((f = fopen("PLOT$MAILBOX", "r")) == NULL)
+-	os_error(NO_CARET, "mailbox open failed");
+-# elif defined(AMIGA_AC_5)
+-	if ((fd = open(cmd, "O_RDONLY")) == -1)
+-# else	/* everyone else */
+-	    if ((f = popen(cmd, "r")) == NULL)
+-		os_error(NO_CARET, "popen failed");
+-# endif	/* everyone else */
+-
+-    /* get output */
+-    result_pos = 0;
+-    result_allocated = MAX_LINE_LEN;
+-    result = gp_alloc(MAX_LINE_LEN, "do_system_func");
+-    result[0] = NUL;
+-    while (1) {
+-# if defined(AMIGA_AC_5)
+-	char ch;
+-	if (read(fd, &ch, 1) != 1)
+-	    break;
+-	c = ch;
+-# else
+-	if ((c = getc(f)) == EOF)
+-	    break;
+-# endif				/* !AMIGA_AC_5 */
+-	/* result <- c */
+-	result[result_pos++] = c;
+-	if ( result_pos == result_allocated ) {
+-	    if ( result_pos >= MAX_TOTAL_LINE_LEN ) {
+-		result_pos--;
+-		int_warn(NO_CARET,
+-			 "*very* long system call output has been truncated");
+-		break;
+-	    } else {
+-		result = gp_realloc(result, result_allocated + MAX_LINE_LEN,
+-				    "extend in do_system_func");
+-		result_allocated += MAX_LINE_LEN;
+-	    }
+-	}
+-    }
+-    result[result_pos] = NUL;
+-
+-    /* close stream */
+-# ifdef AMIGA_AC_5
+-    (void) close(fd);
+-# else				/* Rest of the world */
+-    ierr = pclose(f);
+-# endif
+-
+-    result = gp_realloc(result, strlen(result)+1, "do_system_func");
+-    *output = result;
+-    return ierr;
+-
+-#else /* VMS || PIPES */
+-
+-    int_warn(NO_CARET, "system evaluation not supported by %s", OS);
+-    *output = gp_strdup("");
+-    return 0;
+-
+-#endif /* VMS || PIPES */
+-
++  return 0;
+ }
