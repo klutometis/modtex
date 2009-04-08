@@ -155,6 +155,7 @@ class Config(object):
         Types.GNUPLOT: facilities[Types.GNUPLOT],
         Types.LILYPOND: facilities[Types.LILYPOND],
         Types.MATH: facilities[Types.LATEX],
+        Types.BLOCKMATH: facilities[Types.LATEX],
         Types.NEATO: facilities[Types.GRAPHVIZ],
         Types.TWOPI: facilities[Types.GRAPHVIZ],
         Types.XYMTEX: facilities[Types.LATEX],

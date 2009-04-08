@@ -5,6 +5,7 @@ class Types(object):
     LATEX = 'latex'
     DVIPNG = 'dvipng'
     MATH = 'math'
+    BLOCKMATH = 'blockmath'
     GRAPHVIZ = 'graphviz'
     GNUPLOT = 'plot'
     DOT = 'dot'

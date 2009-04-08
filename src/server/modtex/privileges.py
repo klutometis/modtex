@@ -42,7 +42,7 @@ class Privileges(object):
             pass
         else:
             if code:
-                print >> stderr, RootEscalationError().message
-                exit(code)
+                syslog(RootEscalationError().message)
+                exit(self.code)
             else:
                 raise RootEscalationError()
