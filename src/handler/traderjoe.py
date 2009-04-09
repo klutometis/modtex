@@ -27,7 +27,7 @@ from modtex.config import *
 METHOD = 'POST'
 
 def respond(request, respondendum):
-    request.write(dumps(respondendum))
+    request.write(dumps(respondendum, methodresponse=True))
     return OK
 
 def close_db(db, lock):
